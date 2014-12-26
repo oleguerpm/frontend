@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp_clients">
+<head>
+
+  <script type="text/javascript" src="js/angular.js"></script>
+  <script type="text/javascript" src="js/controllerClientes.js"></script>
+
+
+  <!-- Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+</head>
+
+
+
+<body class="container">
+<div ng-controller="clientscontroller">
+
+  <!-- Button trigger modal -->
+
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Add Company
+  </button>
+
+  <label class="checkbox">
+    <input type="checkbox" ng-model="oneAtATime">
+    Open only one at a time
+  </label>
+  <accordion close-others="oneAtATime">
+
+    <accordion-group heading="{{company_info.company_name}}" ng-repeat="company_info in companies" ng-click="getAdmins(company_info.company_name)">
+      <nav class="navbar navbar-default">
+
+        <table class="table" id="info">
+
+          <thead>
+          <tr>
+
+            <th><h3><i class="fa fa-map-marker"></i> Address: </h3></th>
+            <th><h3><i class="fa fa-users"></i> Leader: </h3></th>
+          </tr>
+          </thead>
+          <tbody>
+
+
+            <td><h4>{{company_info.address}}</h4></td>
+            <td><h4>{{company_info.leader}}</h4></td>
+            <td> <a href="#" ng-click=editCompany(company_info.id)>   <i class="fa fa-pencil-square-o"></i> </a> </td>
+            <td> <a href="#"ng-click=deleteCompany(company_info.company_name)>  <i class="fa fa-trash-o"></i> </a> </td>
+
+            </tbody>
+          </table>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModaladmin">
+          Add Administrator
+        </button>
+
+
+        </nav> <!-- fi del jumbotron-->
+
+      <div id="quiet" class="clearfix"></div>
+
+      <div ng-hide="usersFound" class="ng-hide">   																<!-- Es un boolean. Si true, se muestra -->
+        <h2>There are not administrators</h2>
+
+      </div>
+
+      <div ng-show="usersFound">
+
+      <table class="table" id="infoadmins">
+
+        <h3>Administrators</h3>
+        <thead>
+        <tr>
+
+          <th><h4> email: </h4></th>
+          <th><h4> Password: </h4></th>
+          <th><h4> Name: </h4></th>
+          <th><h4> Phone: </h4></th>
+          <th><h4> Department: </h4></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="admin_info in admins">
+          <td>{{admin_info.login}}</td>
+          <td>{{admin_info.password}}</td>
+          <td>{{admin_info.name}}</td>
+          <td>{{admin_info.phone}}</td>
+          <td>{{admin_info.department}}</td>
+
+
+        </tbody>
+      </table>
+</div> <!-- div del show-->
+    </accordion-group>
+    </accordion>
+
+
+
+
+</div>
+  <!--_______________________________________________________________________________________________________-->
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Add Company</h4>
+          </div>
+          <div data-ng-controller="help">
+          <div class="modal-body">
+
+<!--_________________________________________________________________________________________________________-->
+
+
+
+              <div id="messages" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+              <div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Sending&hellip;</div>
+              <form name="helpForm" novalidate role="form">
+
+                <div class="form-group">
+                  <label for="company_in">Company Name</label>
+                  <span class="label label-danger" data-ng-show="submitted && helpForm.company_in.$error.required">Required!</span>
+                  <input type="text" name="company_in" data-ng-model="company_in" class="form-control" required />
+                </div>
+
+
+                <div class="form-group">
+                  <label for="address_in">Address</label>
+                  <span class="label label-danger" data-ng-show="submitted && helpForm.address_in.$error.required">Required!</span>
+                  <input type="text" name="address_in" data-ng-model="address_in" class="form-control" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="leader_in">Director name and Surname</label>
+                  <span class="label label-danger" data-ng-show="submitted && helpForm.leader_in.$error.required">Required!</span>
+                  <input type="text" name="leader_in" data-ng-model="leader_in" class="form-control" required />
+                </div>
+
+
+
+            <!--____________________________________________________________________________________________-->
+
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button data-ng-disabled="progress.active()" ng-disabled="itsok" data-ng-click="submit(helpForm)" class="btn btn-primary">Check and Submit</button>
+            <div ng-show="itsok">
+              <div class="page-header"></div>
+              <button type="button" class="btn btn-success" data-ng-click="clear()" data-dismiss="modal">OK</button>
+            </div>
+
+          </div>
+            </form>
+
+          </div> <!--div ue tenca el modal body-->
+
+          </div> <!--div ue tenca el controller-->
+        </div>
+      </div>
+    </div> <!--div Tanca tota estructura de modal-->
+
+
+    <!--_______________________________________________________________________________________________________-->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModaladmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabeladmin">Add Administrator</h4>
+      </div>
+      <div data-ng-controller="helpadmin">
+        <div class="modal-body">
+
+              <!--_________________________________________________________________________________________________________-->
+          <div id="messagesadmin" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+          <div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Sending&hellip;</div>
+          <form name="helpForm" novalidate role="form">
+
+            <div class="form-group">
+              <label for="email">User Name</label>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.email.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.$error.email">example@example.com!</span>
+              <input type="email" name="email" data-ng-model="email" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password </label>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.password.$error.required">Required!</span>
+              <input type="text" name="password" data-ng-model="password" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+              <label for="name">Name and Surname</label>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.name.$error.required">Required!</span>
+              <input type="text" name="name" data-ng-model="name" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.phone.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.$error.number">Not a valid number!</span>
+              <input type="number" name="phone" data-ng-model="phone" class="form-control" required />
+            </div>
+
+
+
+            <div class="form-group">
+              <label for="department">Department</label>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.department.$error.required">Required!</span>
+              <input type="text" name="department" data-ng-model="department" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+            <label for="compname">Company name</label>
+            <span class="label label-danger" data-ng-show="submitted && helpForm.compname.$error.required">Required!</span>
+            <select ng-model="compname" name="compname" ng-options="company_info.company_name for company_info in companiesname">
+            </select>
+              </div>
+
+
+
+
+
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button data-ng-disabled="progress.active()" data-ng-click="submit(helpForm)" class="btn btn-primary">Check and Submit</button>
+            <div ng-show="itsok">
+              <div class="page-header"></div>
+              <button type="button" class="btn btn-success" data-ng-click="clear()" data-dismiss="modal">OK</button>
+              </div>
+          </div>
+          </form>
+
+        </div> <!--div ue tenca el modal body-->
+
+      </div> <!--div ue tenca el controller-->
+    </div>
+  </div>
+</div> <!--div Tanca tota estructura de modal-->
+
+
+
+
+
+  </body>
+
+
+
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<script src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>
+<!-- Angular -->
+<script src="js/angular.min.js"></script>
+<script src="js/angular-route.js"></script>
+<script type="text/javascript" src="js/promise-tracker.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+</html>
