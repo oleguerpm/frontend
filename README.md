@@ -13,3 +13,4 @@ This Repo will containt what is going to be uploaded to the server
 <h3>The list of files are:</h3>
 
 pestaña_clients: This is the L1 clients window. Here L1 can add/delete companies, and add L2 administrators. This file requires js/controllerClientes.js as a controller. <b>MISSING:</b> the page doesn't reload automatically, there is not delete functionallity for L2 administrators 
+pestaña_nodes: THis window shows all nodes sorted by company. This window allows to add another node to an specific node. This file requires js/controllerClientes.js as a controller. <b>MISSING:</b> the page doesn't reload automatically when new node is added, there is not delete functionallity for L2 administrators 

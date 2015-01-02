@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp_nodes">
+<head>
+
+  <script type="text/javascript" src="js/angular.js"></script>
+  <script type="text/javascript" src="js/controllerNodes.js"></script>
+
+
+  <!-- Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+</head>
+
+
+
+<body class="container">
+<div ng-controller="nodescontroller">
+
+  <!-- Button trigger modal -->
+
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Add Node
+  </button>
+
+
+  <accordion close-others="oneAtATime">
+
+    <accordion-group heading="{{company_info.company_name}}" ng-repeat="company_info in companies" ng-click="getNodes(company_info.company_name)">
+
+      <div id="quiet" class="clearfix"></div>
+
+      <div ng-hide="nodesFound" class="ng-hide">   																<!-- Es un boolean. Si true, se muestra -->
+        <h2>There are no nodes</h2>
+
+      </div>
+
+      <div ng-show="nodesFound">
+
+      <table class="table" id="infoadmins">
+
+        <thead>
+        <tr>
+
+          <th><h4> Node Name: </h4></th>
+          <th><h4> Mac Address: </h4></th>
+          <th><h4> Port: </h4></th>
+          <th><h4> id: </h4></th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="node_info in nodes">
+          <td>{{node_info.node_name}}</td>
+          <td>{{node_info.MAC_address}}</td>
+          <td>{{node_info.port_number}}</td>
+          <td>{{node_info.id_node}}</td>
+
+        </tbody>
+      </table>
+</div> <!-- div del show-->
+    </accordion-group>
+    </accordion>
+
+
+
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabeladmin">Add Node</h4>
+      </div>
+      <div data-ng-controller="helpnode">
+        <div class="modal-body">
+
+              <!--_________________________________________________________________________________________________________-->
+          <div id="messagesadmin" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+          <div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Sending&hellip;</div>
+          <form name="helpForm" novalidate role="form">
+
+            <div class="form-group">
+              <label for="MAC">MAC Address</label>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.MAC.$error.required">Required!</span>
+              <input type="text" name="MAC" data-ng-model="MAC_address" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+              <label for="nodename">Node Name</label>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.nodename.$error.required">Required!</span>
+              <input type="text" name="nodename" data-ng-model="node_name" class="form-control" required />
+            </div>
+
+
+            <div class="form-group">
+              <label for="port">Port Number</label>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.port.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="submitted && helpForm.$error.number">Not a valid number!</span>
+              <input type="number" name="port" data-ng-model="port_number" class="form-control" required />
+            </div>
+
+
+
+            <div class="form-group">
+            <label for="compname">Company name</label>
+            <span class="label label-danger" data-ng-show="submitted && helpForm.compname.$error.required">Required!</span>
+            <select ng-model="name_company" name="compname" ng-options="company_info.company_name for company_info in companiesname">
+            </select>
+              </div>
+
+
+
+
+
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" data-ng-disabled="progress.active()" ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" class="btn btn-primary">Check and Submit</button>
+            <div ng-show="itsok">
+              <div class="page-header"></div>
+              <button type="button" class="btn btn-success" data-ng-click="clear()" data-dismiss="modal">OK</button>
+              </div>
+          </div>
+          </form>
+
+        </div> <!--div ue tenca el modal body-->
+
+      </div> <!--div ue tenca el controller-->
+    </div>
+  </div>
+</div> <!--div Tanca tota estructura de modal-->
+
+
+
+
+
+  </body>
+
+
+
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<script src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>
+<!-- Angular -->
+<script src="js/angular.min.js"></script>
+<script src="js/angular-route.js"></script>
+<script type="text/javascript" src="js/promise-tracker.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+</html>
