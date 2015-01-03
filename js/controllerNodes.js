@@ -73,6 +73,7 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
 
             $scope.companiesname = data;
             $scope.loaded = true;
+
         })
         .error(function () {
             $scope.companyNotFound = true;
@@ -100,14 +101,6 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
 
         };
 
-        $scope.clear = function () {
-            $scope.MAC_address="";
-            $scope.node_name="";
-            $scope.port_number="";
-            //$scope.name_company="";
-            $scope.itsok = false;
-
-        }
 
         // Perform JSONP request.
         var $promise = $http.post(API+"/addNode", config)
@@ -116,6 +109,11 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
                 $route.reload();
                 $scope.submitted = true;
                 $scope.itsok = true;
+                $scope.MAC_address="";
+                $scope.node_name="";
+                $scope.port_number="";
+                $scope.name_company="";
+
 
 
             }

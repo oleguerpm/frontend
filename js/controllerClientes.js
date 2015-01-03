@@ -80,16 +80,13 @@ Clientscontroller.controller('help', function ($scope, $http, $log, promiseTrack
         }
 
         $scope.clear = function () {
-            $scope.company_in="";
-            $scope.adress_in="";
-            $scope.leader_in="";
-            $scope.itsok=false;
+
         }
         // Default values for the request.
         var config = {
 
             'company_name' : $scope.company_in,
-            'address' : $scope.adress_in,
+            'address' : $scope.address_in,
             'leader' : $scope.leader_in
         };
 
@@ -100,6 +97,10 @@ Clientscontroller.controller('help', function ($scope, $http, $log, promiseTrack
                 $route.reload();
                 $scope.submitted = true;
                 $scope.itsok=true;
+                $scope.company_in="";
+                $scope.address_in="";
+                $scope.leader_in="";
+
 
             }
         )

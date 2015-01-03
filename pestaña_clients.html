@@ -28,6 +28,9 @@
   <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
     Add Company
   </button>
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModaladmin">
+    Add Administrator
+  </button>
 
   <label class="checkbox">
     <input type="checkbox" ng-model="oneAtATime">
@@ -57,9 +60,7 @@
 
             </tbody>
           </table>
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModaladmin">
-          Add Administrator
-        </button>
+
 
 
         </nav> <!-- fi del jumbotron-->
@@ -153,15 +154,11 @@
             <!--____________________________________________________________________________________________-->
 
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button data-ng-disabled="progress.active()" ng-disabled="itsok" data-ng-click="submit(helpForm)" class="btn btn-primary">Check and Submit</button>
-            <div ng-show="itsok">
-              <div class="page-header"></div>
-              <button type="button" class="btn btn-success" data-ng-click="clear()" data-dismiss="modal">OK</button>
-            </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="modal" class="btn btn-primary">Check and Submit</button>
 
-          </div>
+                </div>
             </form>
 
           </div> <!--div ue tenca el modal body-->
@@ -234,18 +231,15 @@
               </div>
 
 
+           <!-- data-ng-disabled="progress.active()" Aixo abans estava dins de submit-->
 
 
 
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="modal" class="btn btn-primary">Check and Submit</button>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button data-ng-disabled="progress.active()" data-ng-click="submit(helpForm)" class="btn btn-primary">Check and Submit</button>
-            <div ng-show="itsok">
-              <div class="page-header"></div>
-              <button type="button" class="btn btn-success" data-ng-click="clear()" data-dismiss="modal">OK</button>
-              </div>
-          </div>
+            </div>
           </form>
 
         </div> <!--div ue tenca el modal body-->
