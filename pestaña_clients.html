@@ -95,6 +95,8 @@
           <td>{{admin_info.name}}</td>
           <td>{{admin_info.phone}}</td>
           <td>{{admin_info.department}}</td>
+          <td> <a href="#" ng-click=editUser(admin_info.id)>   <i class="fa fa-pencil-square-o"></i> </a> </td>
+          <td> <a href="#"ng-click=deleteUser(admin_info.login)>  <i class="fa fa-trash-o"></i> </a> </td>
 
 
         </tbody>
@@ -191,27 +193,27 @@
 
             <div class="form-group">
               <label for="email">User Name</label>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.email.$error.required">Required!</span>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.$error.email">example@example.com!</span>
+              <span class="label label-danger" data-ng-show="helpForm.email.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="helpForm.$error.email">example@example.com!</span>
               <input type="email" name="email" data-ng-model="email" class="form-control" required />
             </div>
 
             <div class="form-group">
               <label for="password">Password </label>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.password.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="helpForm.password.$error.required">Required!</span>
               <input type="text" name="password" data-ng-model="password" class="form-control" required />
             </div>
 
             <div class="form-group">
               <label for="name">Name and Surname</label>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.name.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="helpForm.name.$error.required">Required!</span>
               <input type="text" name="name" data-ng-model="name" class="form-control" required />
             </div>
 
             <div class="form-group">
               <label for="phone">Phone</label>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.phone.$error.required">Required!</span>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.$error.number">Not a valid number!</span>
+              <span class="label label-danger" data-ng-show="helpForm.phone.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="helpForm.$error.number">Not a valid number!</span>
               <input type="number" name="phone" data-ng-model="phone" class="form-control" required />
             </div>
 
@@ -219,14 +221,14 @@
 
             <div class="form-group">
               <label for="department">Department</label>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.department.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="helpForm.department.$error.required">Required!</span>
               <input type="text" name="department" data-ng-model="department" class="form-control" required />
             </div>
 
             <div class="form-group">
             <label for="compname">Company name</label>
-            <span class="label label-danger" data-ng-show="submitted && helpForm.compname.$error.required">Required!</span>
-            <select ng-model="compname" name="compname" ng-options="company_info.company_name for company_info in companiesname">
+            <span class="label label-danger" data-ng-show="helpForm.compname.$error.required">Required!</span>
+            <select ng-model="compname" name="compname" class="form-control" required ng-options="company_info.company_name for company_info in companiesname">
             </select>
               </div>
 

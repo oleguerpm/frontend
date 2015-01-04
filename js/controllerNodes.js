@@ -4,7 +4,7 @@ var API="http://147.83.113.109:8080/jersey-quickstart-webapp/beflow/myresource";
 
 
 
-Clientscontroller.controller('nodescontroller',function($scope, $http)
+Clientscontroller.controller('nodescontroller',function($scope, $http, $window)
 {
 
     $scope.nodesFound = false;
@@ -40,7 +40,7 @@ Clientscontroller.controller('nodescontroller',function($scope, $http)
             });
     }
 
-    $scope.editCompany = function () {
+    $scope.editNode = function () {
 
 
         $scope.proba="Aixo es edit";
@@ -50,11 +50,11 @@ Clientscontroller.controller('nodescontroller',function($scope, $http)
 
 
 
-    $scope.deleteCompany = function(name){
-        $http.delete(API+"/delCompany/"+name)
+    $scope.deleteNode = function(name){
+        $http.delete(API+"/delNode/"+name)
             .success(function(response, status, headers, config){
                 $scope.missatge="S'ha esborrat be";
-                $route.reload();
+                $window.location.reload();
             })
             .error(function(response, status, headers, config){
                 $scope.missatge="No s'ha borrat be";
@@ -66,7 +66,7 @@ Clientscontroller.controller('nodescontroller',function($scope, $http)
 
 
 
-Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseTracker, $timeout, $route) {
+Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
 
     $http.get(API+"/getAllCompanies")
         .success(function (data) {
@@ -106,7 +106,6 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
         var $promise = $http.post(API+"/addNode", config)
             .success(function(data, status, headers, config) {
 
-                $route.reload();
                 $scope.submitted = true;
                 $scope.itsok = true;
                 $scope.MAC_address="";

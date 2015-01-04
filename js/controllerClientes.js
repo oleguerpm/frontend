@@ -4,7 +4,7 @@ var API="http://147.83.113.109:8080/jersey-quickstart-webapp/beflow/myresource";
 
 
 
-Clientscontroller.controller('clientscontroller',function($scope, $http)
+Clientscontroller.controller('clientscontroller',function($scope, $http, $window)
 {
 
     $scope.usersFound = false;
@@ -53,8 +53,32 @@ Clientscontroller.controller('clientscontroller',function($scope, $http)
     $scope.deleteCompany = function(name){
         $http.delete(API+"/delCompany/"+name)
             .success(function(response, status, headers, config){
+                $window.location.reload();
                 $scope.missatge="S'ha esborrat be";
-                $route.reload();
+
+            })
+            .error(function(response, status, headers, config){
+                $scope.missatge="No s'ha borrat be";
+            });
+    }
+
+
+    $scope.editUser = function () {
+
+
+        $scope.proba="Aixo es edit";
+
+    }
+
+
+
+
+    $scope.deleteUser = function(name){
+        $http.delete(API+"/delUser/"+name)
+            .success(function(response, status, headers, config){
+                $window.location.reload();
+                $scope.missatge="S'ha esborrat be";
+
             })
             .error(function(response, status, headers, config){
                 $scope.missatge="No s'ha borrat be";
@@ -65,13 +89,14 @@ Clientscontroller.controller('clientscontroller',function($scope, $http)
 });
 
 
-Clientscontroller.controller('help', function ($scope, $http, $log, promiseTracker, $timeout, $route) {
+Clientscontroller.controller('help', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
 
     // Form submit handler.
     $scope.submit = function(form) {
         // Trigger validation flag.
         $scope.submitted = true;
         $scope.itsok=false;
+        $route.reload();
 
 
         // If form is invalid, return and let AngularJS show validation errors.
@@ -94,7 +119,7 @@ Clientscontroller.controller('help', function ($scope, $http, $log, promiseTrack
         var $promise = $http.post(API+"/addCompany", config)
             .success(function(data, status, headers, config) {
 
-                $route.reload();
+                $window.location.reload();
                 $scope.submitted = true;
                 $scope.itsok=true;
                 $scope.company_in="";
@@ -118,7 +143,7 @@ Clientscontroller.controller('help', function ($scope, $http, $log, promiseTrack
 
 
 
-Clientscontroller.controller('helpadmin', function ($scope, $http, $log, promiseTracker, $timeout, $route) {
+Clientscontroller.controller('helpadmin', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
 
     $http.get(API+"/getAllCompanies")
         .success(function (data) {
@@ -169,7 +194,7 @@ Clientscontroller.controller('helpadmin', function ($scope, $http, $log, promise
         var $promise = $http.post(API+"/addUser", config)
             .success(function(data, status, headers, config) {
 
-                $route.reload();
+                $window.location.reload();
                 $scope.submitted = true;
                 $scope.itsok = true;
 

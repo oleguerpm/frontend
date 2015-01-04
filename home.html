@@ -147,16 +147,12 @@
                             <!-- /input-group -->
                         </li>
 
-                        <div ng-hide="companiesFound" class="ng-hide">   																<!-- Es un boolean. Si true, se muestra -->
-                            <h2>There are no companies</h2>
 
-                        </div>
+                            <li ng-show="companiesFound" ng-repeat="company in companies">
+                                <a href="{{repo.html_url}}"> {{company.company_name}} </a>
+                            </li>
 
-                        
 
-                            <div ng-show="companiesFound" ng-repeat="company in companies">
-                                <li><a href="{{repo.html_url}}" target="_blank"> {{company.company_name}} </a></li>
-                            </div>
 
                     </ul>
                 </div>

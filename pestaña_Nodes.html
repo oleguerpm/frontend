@@ -55,8 +55,9 @@
 
           <th><h4> Node Name: </h4></th>
           <th><h4> Mac Address: </h4></th>
-          <th><h4> Port: </h4></th>
-          <th><h4> id: </h4></th>
+          <th><h4> Port Number: </h4></th>
+
+
 
 
         </tr>
@@ -66,7 +67,9 @@
           <td>{{node_info.node_name}}</td>
           <td>{{node_info.MAC_address}}</td>
           <td>{{node_info.port_number}}</td>
-          <td>{{node_info.id_node}}</td>
+          <td> <a href="#" ng-click=editNode(node_info.id)>   <i class="fa fa-pencil-square-o"></i> </a> </td>
+          <td> <a href="#"ng-click=deleteNode(node_info.node_name)>  <i class="fa fa-trash-o"></i> </a> </td>
+
 
         </tbody>
       </table>
@@ -99,29 +102,29 @@
 
             <div class="form-group">
               <label for="MAC">MAC Address</label>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.MAC.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="helpForm.MAC.$error.required">Required!</span>
               <input type="text" name="MAC" data-ng-model="MAC_address" class="form-control" required />
             </div>
 
             <div class="form-group">
               <label for="nodename">Node Name</label>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.nodename.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="helpForm.nodename.$error.required">Required!</span>
               <input type="text" name="nodename" data-ng-model="node_name" class="form-control" required />
             </div>
 
 
             <div class="form-group">
               <label for="port">Port Number</label>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.port.$error.required">Required!</span>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.$error.number">Not a valid number!</span>
+              <span class="label label-danger" data-ng-show="helpForm.port.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="helpForm.$error.number">Not a valid number!</span>
               <input type="number" name="port" data-ng-model="port_number" class="form-control" required />
             </div>
 
 
             <div class="form-group">
               <label for="compname">Company name</label>
-              <span class="label label-danger" data-ng-show="submitted && helpForm.compname.$error.required">Required!</span>
-              <select ng-model="compname" name="compname" ng-options="company_info.company_name for company_info in companiesname">
+              <span class="label label-danger" data-ng-show="helpForm.compname.$error.required">Required!</span>
+              <select ng-model="compname" name="compname" class="form-control" required ng-options="company_info.company_name for company_info in companiesname">
               </select>
             </div>
 
