@@ -1,12 +1,13 @@
-var Clientscontroller = angular.module("myApp_home", ['ngRoute']);
+var Clientscontroller = angular.module("myApp_home", ['ngRoute', 'ngSanitize']);
 
 var API="http://147.83.113.109:8080/jersey-quickstart-webapp/beflow/myresource";
 
 
 
-Clientscontroller.controller('homecontroller',function($scope, $http)
+Clientscontroller.controller('homecontroller',function($scope, $http, $sce)
 {
 
+    $scope.preview_data.preview.clients.htmlSafe =  $sce.trustAsHtml(preview_data.preview.clients.html);
     $scope.companiesFound = false;
 
 

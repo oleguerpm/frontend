@@ -40,10 +40,24 @@ Clientscontroller.controller('clientscontroller',function($scope, $http, $window
             });
     }
 
-    $scope.editCompany = function () {
+    $scope.editCompany = function (namecompany) {
 
 
-        $scope.proba="Aixo es edit";
+        $http.get(API+"/getCompany/"+ namecompany)
+            .success(function (data) {
+
+                $scope.companyia = data;
+
+
+
+            })
+            .error(function () {
+
+                $scope.hihaerror = "aqui no s'ha trobat res";
+            });
+
+
+
 
     }
 
@@ -90,7 +104,8 @@ Clientscontroller.controller('clientscontroller',function($scope, $http, $window
 
 
 Clientscontroller.controller('help', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
-
+    var headers = {'Content-Type': 'application/json; charset=utf-8'}
+    $scope.notok = false;
     // Form submit handler.
     $scope.submit = function(form) {
         // Trigger validation flag.
@@ -127,11 +142,14 @@ Clientscontroller.controller('help', function ($scope, $http, $log, promiseTrack
                 $scope.leader_in="";
 
 
+
+
             }
         )
             .error(function(data, status, headers, config) {
                 $scope.progress = data;
-                $scope.messages = 'There was a network error. Try again later.';
+                $scope.itsok=true
+                $scope.messages = 'There was an error. Try again later.';
                 $log.error(data);
             })
     };
@@ -144,6 +162,7 @@ Clientscontroller.controller('help', function ($scope, $http, $log, promiseTrack
 
 
 Clientscontroller.controller('helpadmin', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
+    var headers = {'Content-Type': 'application/json; charset=utf-8'}
 
     $http.get(API+"/getAllCompanies")
         .success(function (data) {
@@ -203,6 +222,7 @@ Clientscontroller.controller('helpadmin', function ($scope, $http, $log, promise
         )
             .error(function(data, status, headers, config) {
                 $scope.progress = data;
+                $scope.itsok=false;
                 $scope.messages = 'There was a network error. Try again later.';
                 $log.error(data);
             })

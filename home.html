@@ -29,6 +29,7 @@
     <script type="text/javascript" src="js/angular.js"></script>
     <script type="text/javascript" src="js/controllerHome.js"></script>
 
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -252,7 +253,9 @@
 								</div>
 								<div class="tab-pane fade" id="clients">
 									<h4>Clients Tab</h4>
-									<p>cambio cosas</p>
+                                    <div ng-bind-html="preview_data.preview.clients.htmlSafe"></div>
+
+
 								</div>
 								<div class="tab-pane fade" id="switches">
 									<h4>Switches Tab</h4>
@@ -363,6 +366,9 @@
     <!-- Angular -->
     <script src="js/angular.min.js"></script>
     <script src="js/angular-route.js"></script>
+    <script src="js/angular-sanitize.js"></script>
+
+
 
 
 </body>

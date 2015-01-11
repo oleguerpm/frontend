@@ -55,7 +55,7 @@
 
             <td><h4>{{company_info.address}}</h4></td>
             <td><h4>{{company_info.leader}}</h4></td>
-            <td> <a href="#" ng-click=editCompany(company_info.id)>   <i class="fa fa-pencil-square-o"></i> </a> </td>
+            <td> <a href="#" ng-click=editCompany(company_info.company_name) data-toggle="modal" data-target="#myModal">   <i class="fa fa-pencil-square-o"></i> </a> </td>
             <td> <a href="#"ng-click=deleteCompany(company_info.company_name)>  <i class="fa fa-trash-o"></i> </a> </td>
 
             </tbody>
@@ -119,7 +119,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Add Company</h4>
+            <h4 class="modal-title" id="myModalLabel">Company</h4>
           </div>
           <div data-ng-controller="help">
           <div class="modal-body">
@@ -158,7 +158,7 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="modal" class="btn btn-primary">Check and Submit</button>
+                  <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="itsok" class="btn btn-primary">Check and Submit</button>
 
                 </div>
             </form>
@@ -239,7 +239,7 @@
 
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="modal" class="btn btn-primary">Check and Submit</button>
+              <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="itsok" class="btn btn-primary">Check and Submit</button>
 
             </div>
           </form>
