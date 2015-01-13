@@ -35,6 +35,30 @@ Clientscontroller.controller('homecontroller',function($scope, $http, $sce)
     }
 
 });
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/*/////////////////////////////////////////////////PRINTAR TOPOLOGIA//////////////////////////////////////////////// */
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+Clientscontroller.controller('topocontroller',function($scope, $http, $sce) //he llamado al controlador "topocontroller" por ejemplo
+{
+    $http.get(API + "getTopologyController")
+        .success(function (data) {
+
+            $scope.topo = data;                //El json de la topolojia se carga en data, i en esta linea se copia a topo
+                                               //Ahora "topo" es accesible des de la pantalla principal
+                                               //No se como es el script pero le tienes que enchufar "topo"
+
+        })
+        .error(function () {                    //esto de aqui solo se ejecuta si al hacer el get te devuelve un 400
+            $scope.companyNotFound = true;
+            $scope.thereiserror = "aqui no hay nada"; //si a home.html pussieses {{thereiserror}} si hubiese error angular
+        });                                           //mostria "aqui no hay nada" en el browser
+
+});
+
+
+
+
 
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
