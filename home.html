@@ -28,6 +28,7 @@
 
     <script type="text/javascript" src="js/angular.js"></script>
     <script type="text/javascript" src="js/controllerHome.js"></script>
+    <script type="text/html" src="clients.html"></script>
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -39,7 +40,7 @@
 
 </head>
 
-<body data-ng-controller="homecontroller">
+<body>
 
     <div id="wrapper">
 
@@ -133,7 +134,7 @@
             </ul>
             <!-- /.navbar-top-links -->
 
-            <div class="navbar-default sidebar" role="navigation">
+            <div class="navbar-default sidebar" role="navigation"  data-ng-controller="homecontroller">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
@@ -173,7 +174,7 @@
 								</li>
 								<li><a href="#clients" data-toggle="tab">Clients</a>
 								</li>
-								<li><a href="#switches" data-toggle="tab">Switches</a>
+								<li><a href="#nodes" data-toggle="tab">Nodes</a>
 								</li>
 								<li><a href="#flows_pane" data-toggle="tab">Flows</a>
 								</li>
@@ -252,29 +253,15 @@
                                     </script>
 								</div>
 								<div class="tab-pane fade" id="clients">
-									<h4>Clients Tab</h4>
-                                    <div ng-bind-html="preview_data.preview.clients.htmlSafe"></div>
+                                    <div ng-include src=" 'pestaña_clients.html' "></div>
 
 
 								</div>
-								<div class="tab-pane fade" id="switches">
-									<h4>Switches Tab</h4>
-									<p>texto</p>
+								<div class="tab-pane fade" id="nodes">
+                                    <div ng-include src=" 'pestaña_Nodes.html' "></div>
 								</div>
 								<div class="tab-pane fade" id="flows_pane">
-									<h4 id="custom-toolbar">Flows Tab</h4>
-                                    <table data-toolbar="#custom-toolbar" data-striped="true" data-toggle="table" data-page-list="[5,10,15]" data-page-size="10"
-                                           data-url="flows_data.json" data-pagination="true" data-search="true">
-                                        <thead>
-                                        <tr>
-                                            <th data-field="origin" data-align="right" data-sortable="true">Origin</th>
-                                            <th data-field="destination" data-align="center" data-sortable="true">Destination</th>
-                                            <th data-field="time" data-align="left" data-sortable="true">Time</th>
-                                            <th data-field="protocol" data-align="left" data-sortable="true">Protocol</th>
-                                            <th data-field="rate" data-align="left" data-sortable="true">Rate</th>
-                                        </tr>
-                                        </thead>
-                                    </table>
+                                    <div ng-include src=" 'pestaña_flows.html' "></div>
 								</div>
 								<div class="tab-pane fade" id="statistics">
 									<h4>Statistics Tab</h4>
@@ -348,6 +335,7 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-table.js"></script>
+    <script src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>
 
     <script src="js/flows_file.js"></script>
 
@@ -367,6 +355,7 @@
     <script src="js/angular.min.js"></script>
     <script src="js/angular-route.js"></script>
     <script src="js/angular-sanitize.js"></script>
+    <script type="text/javascript" src="js/promise-tracker.js"></script>
 
 
 

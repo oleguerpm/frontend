@@ -25,7 +25,7 @@
 
   <!-- Button trigger modal -->
 
-  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModalNode">
     Add Node
   </button>
 
@@ -85,12 +85,12 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModalNode" tabindex="-1" role="dialog" aria-labelledby="myModalLabelNode" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabelnode">Add Node</h4>
+        <h4 class="modal-title" id="myModalLabelNode">Add Node</h4>
       </div>
       <div data-ng-controller="helpnode">
         <div class="modal-body">
@@ -133,7 +133,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="modal" class="btn btn-primary">Check and Submit</button>
+            <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="itsok" class="btn btn-primary">Check and Submit</button>
 
           </div>
           </form>

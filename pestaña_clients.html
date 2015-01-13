@@ -25,10 +25,11 @@
 
   <!-- Button trigger modal -->
 
-  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+
+  <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModalComp">
     Add Company
   </button>
-  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModaladmin">
+  <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModaladmin">
     Add Administrator
   </button>
 
@@ -55,7 +56,7 @@
 
             <td><h4>{{company_info.address}}</h4></td>
             <td><h4>{{company_info.leader}}</h4></td>
-            <td> <a href="#" ng-click=editCompany(company_info.company_name) data-toggle="modal" data-target="#myModal">   <i class="fa fa-pencil-square-o"></i> </a> </td>
+            <td> <a href="#" ng-click=editCompany(company_info.company_name) data-toggle="modal" data-target="#myModalComp">   <i class="fa fa-pencil-square-o"></i> </a> </td>
             <td> <a href="#"ng-click=deleteCompany(company_info.company_name)>  <i class="fa fa-trash-o"></i> </a> </td>
 
             </tbody>
@@ -114,12 +115,12 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModalComp" tabindex="-1" role="dialog" aria-labelledby="myModalLabelComp" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Company</h4>
+            <h4 class="modal-title" id="myModalLabelComp">Company</h4>
           </div>
           <div data-ng-controller="help">
           <div class="modal-body">
@@ -176,7 +177,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModaladmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModaladmin" tabindex="-1" role="dialog" aria-labelledby="myModalLabelAdmin" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
