@@ -604,3 +604,80 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
 
     };
 });
+
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/*/////////////////////////////////////////////////STATISTICS/////////////////////////////////////////////////////// */
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+
+Clientscontroller.controller('statisticscontroller',function($scope, $http, $window) {
+
+});
+
+Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
+
+    $scope.nodeslo={"nodes":[{"id":"00:01:d4:ca:6d:b5:f4:0f","name":"Aixo es 1"},{"id":"00:01:d4:ca:6d:d4:4f:6b","name":""},{"id":"00:01:d4:ca:6d:c4:44:1e","name":""}]};
+    $scope.parse=$scope.nodeslo.nodes;
+    $scope.infomicro={"listWsObjectStats":[{"mac":"00:01:d4:ca:6d:b5:f4:0f","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]},{"mac":"00:01:d4:ca:6d:d4:4f:6b","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]},{"mac":"00:01:d4:ca:6d:c4:44:1e","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]}]}
+
+    $scope.ports = [
+        {
+            port: '1'
+
+        },
+        {
+            port: '2'
+
+        },
+        {
+            port: '3'
+
+        },
+        {
+            port: '4'
+
+        }
+    ];
+
+    $scope.intervalo = [
+        {
+            acr: 'w',
+            name: 'weeks'
+        },
+        {
+            acr: 'd',
+            name: 'days'
+        },
+        {
+            acr: 'h',
+            name: 'hours'
+        }
+    ];
+
+
+// Form submit handler.
+    $scope.submit = function(form, port, MAC) {
+        // Trigger validation flag.
+        $scope.submitted = true;
+        $scope.itsok = false;
+
+        // If form is invalid, return and let AngularJS show validation errors.
+        if (form.$invalid) {
+            return;
+        }
+
+        $http.get(API + "/getGraphPortJSON/" + $scope.time+$scope.range.acr+"_"+$scope.MAC_address+"_"+$scope.port_in.port)
+            .success(function (data) {
+
+                $scope.rawgraph = data;
+                if (data.length == 0){$scope.nographfound="There is no graph for MAC: "+$scope.MAC_address+" and port: "+$scope.port_in.port;}
+
+            })
+            .error(function () {
+
+
+            });
+    }
+
+});
