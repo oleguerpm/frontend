@@ -2,76 +2,92 @@
 <html lang="en" ng-app="myApp_statistics">
 <head>
 
-    <script type="text/javascript" src="js/angular.js"></script>
-    <script type="text/javascript" src="js/controllerStatistics.js"></script>
+  <script type="text/javascript" src="js/angular.js"></script>
+  <script type="text/javascript" src="js/controllerStatistics.js"></script>
 
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom Fonts -->
+  <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
 </head>
 
 
 
-<body class="container">
-<div ng-controller="statisticscontroller">
+<body>
 
 
+
+<div data-ng-controller="helpstatistics" >
+
+      <div class="container">
+
+          <!--_________________________________________________________________________________________________________-->
+
+        <div id="messagesadmin" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
+          <div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Sending&hellip;</div>
+          <form class="navbar-form navbar-left" name="helpForm" class="form-inline" novalidate role="form">
+
+            <div class="form-group">
+              <label for="mikro">Mikrotik</label>
+              <select ng-model="MAC_address" name="mikro" class="form-control"
+                      ng-options="mikro.name+' - '+mikro.id for mikro in nodesloaded" required>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="port_in">Port</label>
+              <select ng-model="port_in" name="port_in" class="form-control" required ng-options="portavail.port for portavail in ports">
+              </select>
+            </div>
+
+
+            <div class="form-group">
+              <label for="time">Time</label>
+              <input type="number" name="time" data-ng-model="time" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+              <label for="range">Range</label>
+              <select ng-model="range" name="range" class="form-control" required ng-options="interval.name for interval in intervalo">
+              </select>
+            </div>
+
+             <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="itsok" class="btn btn-primary" ><i class="fa fa-plus"></i></button>
+
+
+          </form>
+
+        <div id="nogrpaph" class="alert alert-warning" data-ng-show="nographfound" data-ng-bind="nographfound"></div>
+
+      </div>
+<div class="container">
+  <!--<img src="{{rawgraph}}"/> -->
+
+  <table>
+    <thead>
+    <tr>
+      <th width="200"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="grafic in grafics">
+      <td><img src="{{grafic}}"/></td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
 </div>
 
 
-
-
-<div data-ng-controller="helpstatistics">
-
-    <!--_________________________________________________________________________________________________________-->
-
-    <div id="messagesadmin" class="alert alert-success" data-ng-show="messages" data-ng-bind="messages"></div>
-    <div data-ng-show="progress.active()" style="color: red; font-size: 50px;">Sending&hellip;</div>
-    <form class="navbar-form navbar-left" name="helpForm" class="form-inline" novalidate role="form">
-
-        <div class="form-group">
-            <label for="mikro">Mikrotik</label>
-            <select ng-model="MAC_address" name="mikro" class="form-control"
-                    ng-options="mikro.name+' - '+mikro.id for mikro in nodesloaded" required>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="port_in">Port</label>
-            <select ng-model="port_in" name="port_in" class="form-control" required ng-options="portavail.port for portavail in ports">
-            </select>
-        </div>
-
-
-        <div class="form-group">
-            <label for="time">Time</label>
-            <input type="number" name="time" data-ng-model="time" class="form-control" required />
-        </div>
-
-        <div class="form-group">
-            <label for="range">Range</label>
-            <select ng-model="range" name="range" class="form-control" required ng-options="interval.name for interval in intervalo">
-            </select>
-        </div>
-
-        <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="itsok" class="btn btn-primary" ><i class="fa fa-plus"></i></button>
-
-
-
-
-    </form>
-
-    <div id="nogrpaph" class="alert alert-warning" data-ng-show="nographfound" data-ng-bind="nographfound"></div>
-
-</div> <!--div ue tenca el controller-->
 
 
 

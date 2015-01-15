@@ -652,7 +652,6 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
 /*/////////////////////////////////////////////////STATISTICS/////////////////////////////////////////////////////// */
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-
 Clientscontroller.controller('statisticscontroller',function($scope, $http, $window) {
 
 });
@@ -708,7 +707,7 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
             name: 'hours'
         }
     ];
-
+    $scope.grafics = [];
 
 // Form submit handler.
     $scope.submit = function(form, port, MAC) {
@@ -721,11 +720,20 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
             return;
         }
 
-        $http.get(API + "/getGraphPortJSON/" + $scope.time+$scope.range.acr+"_"+$scope.MAC_address.id+"_"+$scope.port_in.port)
+        $http.get(API + "/getGraphPort/" + $scope.time+$scope.range.acr+"_"+$scope.MAC_address.id+"_"+$scope.port_in.port)
             .success(function (data) {
-
+                $scope.nographfound="";
                 $scope.rawgraph = data;
+                $scope.grafics.push($scope.rawgraph);
+
+
                 if (data.length == 0){$scope.nographfound="There is no graph for MAC: "+$scope.MAC_address.id+" and port: "+$scope.port_in.port;}
+                $scope.time=""
+                $scope.range="";
+                $scope.MAC_address="";
+                $scope.port_in="";
+
+
 
             })
             .error(function () {
@@ -735,6 +743,6 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
     }
 
 
-
 });
+
 
