@@ -28,62 +28,7 @@
   <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModalFlow">
     Add Flow
   </button>
-<!--
 
-  <label class="checkbox">
-    <input type="checkbox" ng-model="oneAtATime">
-    Open only one at a time
-  </label>
-  <accordion close-others="oneAtATime">
-
-    <accordion close-others="oneAtATime">
-
-      <accordion-group heading="{{company_info.company_name}}" ng-repeat="company_info in companies" ng-click="getNodes(company_info.company_name)">
-
-        <div id="quiet" class="clearfix"></div>
-
-        <div ng-hide="nodesFound" class="ng-hide">
-          <h2>There are no nodes</h2>
-
-        </div>
-
-        <div ng-show="nodesFound">
-
-          <table class="table" id="infoadmins">
-
-            <thead>
-            <tr>
-
-              <th><h4> Node Name: </h4></th>
-              <th><h4> Mac Address: </h4></th>
-              <th><h4> Port Number: </h4></th>
-
-
-
-
-            </tr>
-            </thead>
-            <tbody>
-            <tr data-ng-repeat="node_info in nodes">
-              <td>{{node_info.node_name}}</td>
-              <td>{{node_info.MAC_address}}</td>
-              <td>{{node_info.port_number}}</td>
-              <td> <a href="#" ng-click=editNode(node_info.id)>   <i class="fa fa-pencil-square-o"></i> </a> </td>
-              <td> <a href="#"ng-click=deleteNode(node_info.node_name)>  <i class="fa fa-trash-o"></i> </a> </td>
-
-
-            </tbody>
-          </table>
-        </div>
-      </accordion-group>
-    </accordion>
-
-
-
-
-</div>
-
--->
 
 <!-- Modal -->
 <div class="modal fade" id="myModalFlow" tabindex="-1" role="dialog" aria-labelledby="myModalLabelFlow" aria-hidden="true">
