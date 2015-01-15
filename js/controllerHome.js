@@ -12,7 +12,7 @@ Clientscontroller.controller('homecontroller',function($scope, $http, $sce)
 
     $scope.companiesFound = false;
 
-    $http.get(API+"/getAllCompanies")
+    $http.get(API+"/getAllCompanies")                   //Muestra las compañias al lado izquierdo de pantalla
         .success(function (data) {
 
             $scope.companies = data;
@@ -72,9 +72,7 @@ Clientscontroller.controller('clientscontroller',function($scope, $http, $window
     $scope.usersFound = false;
 
 
-
-
-    $http.get(API+"/getAllCompanies")
+    $http.get(API+"/getAllCompanies")                           //muestra todas compañias
         .success(function (data) {
 
             $scope.companies = data;
@@ -86,7 +84,7 @@ Clientscontroller.controller('clientscontroller',function($scope, $http, $window
             $scope.hihaerror = "aqui no s'ha trobat res";
         });
 
-    $scope.getAdmins = function (namecompany) {
+    $scope.getAdmins = function (namecompany) {             //Muestra todos los admins dado una compañia
         $http.get(API + "/getUsersFromCompany/" + namecompany)
             .success(function (data) {
 
@@ -102,7 +100,7 @@ Clientscontroller.controller('clientscontroller',function($scope, $http, $window
             });
     }
 
-    $scope.editCompany = function (namecompany) {
+    $scope.editCompany = function (namecompany) {           //Funcion no funcional
 
 
         $http.get(API+"/getCompany/"+ namecompany)
@@ -118,15 +116,10 @@ Clientscontroller.controller('clientscontroller',function($scope, $http, $window
                 $scope.hihaerror = "aqui no s'ha trobat res";
             });
 
-
-
-
     }
 
 
-
-
-    $scope.deleteCompany = function(name){
+    $scope.deleteCompany = function(name){                              //Borrar compañia
         $http.delete(API+"/delCompany/"+name)
             .success(function(response, status, headers, config){
                 $window.location.reload();
@@ -139,7 +132,7 @@ Clientscontroller.controller('clientscontroller',function($scope, $http, $window
     }
 
 
-    $scope.editUser = function () {
+    $scope.editUser = function () {                                     //Editar usuario no funcional
 
 
         $scope.proba="Aixo es edit";
@@ -149,7 +142,7 @@ Clientscontroller.controller('clientscontroller',function($scope, $http, $window
 
 
 
-    $scope.deleteUser = function(name){
+    $scope.deleteUser = function(name){                                 //Borrar Usuario
         $http.delete(API+"/delUser/"+name)
             .success(function(response, status, headers, config){
                 $window.location.reload();
@@ -237,13 +230,13 @@ Clientscontroller.controller('helpadmin', function ($scope, $http, $log, promise
             $scope.hihaerror = "aqui no s'ha trobat res";
         });
 
-// Form submit handler.
+
     $scope.submit = function(form) {
         // Trigger validation flag.
         $scope.submitted = true;
         $scope.itsok = false;
 
-        // If form is invalid, return and let AngularJS show validation errors.
+
         if (form.$invalid) {
             return;
         }
@@ -305,8 +298,6 @@ Clientscontroller.controller('flowscontroller',function($scope, $http, $window)
     $scope.nodesFound = false;
 
 
-
-
     $http.get(API+"/getAllFlows")
         .success(function (data) {
 
@@ -361,7 +352,7 @@ Clientscontroller.controller('flowscontroller',function($scope, $http, $window)
 
 
 
-Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
+Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
 
     $scope.protos = [
         {
@@ -392,17 +383,39 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
 
     ];
 
-    $http.get(API+"/getAllCompanies")
+    $scope.ports = [
+        {
+            port: '1'
+
+        },
+        {
+            port: '2'
+
+        },
+        {
+            port: '3'
+
+        },
+        {
+            port: '4'
+
+        }
+    ];
+
+    $http.get(API + "/getNodesController")
         .success(function (data) {
 
-            $scope.companiesname = data;
-            $scope.loaded = true;
+            $scope.nodeslo = data;
+            $scope.nodesloaded=$scope.nodeslo.nodes;
+
 
         })
         .error(function () {
-            $scope.companyNotFound = true;
-            $scope.hihaerror = "aqui no s'ha trobat res";
+
         });
+
+
+
 
 // Form submit handler.
     var headers = {'Content-Type': 'application/json'}
@@ -420,10 +433,10 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
         var config = {
 
             'name' : $scope.flow_name,
-            'ingressPort' : $scope.port_number,
+            'ingressPort' : $scope.port_in.port,
             'priority' : $scope.priority,
             'node' : {
-                'id' : $scope.MAC_address,
+                'id' : $scope.MAC_address.id,
                 'type' : 'OF'
             },
             'hardTimeout' : $scope.hardtimer,
@@ -486,9 +499,6 @@ Clientscontroller.controller('nodescontroller',function($scope, $http, $window)
 
     $scope.nodesFound = false;
 
-
-
-
     $http.get(API+"/getAllCompanies")
         .success(function (data) {
 
@@ -507,7 +517,6 @@ Clientscontroller.controller('nodescontroller',function($scope, $http, $window)
 
                 $scope.nodes = data;
                 $scope.nodesFound = data.length>0;
-
 
 
             })
@@ -557,6 +566,39 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
             $scope.hihaerror = "aqui no s'ha trobat res";
         });
 
+    $http.get(API + "/getNodesController")
+        .success(function (data) {
+
+            $scope.nodeslo = data;
+            $scope.nodesloaded=$scope.nodeslo.nodes;
+
+
+        })
+        .error(function () {
+
+
+        });
+
+    $scope.ports = [
+        {
+            port: '1'
+
+        },
+        {
+            port: '2'
+
+        },
+        {
+            port: '3'
+
+        },
+        {
+            port: '4'
+
+        }
+    ];
+
+
 // Form submit handler.
     $scope.submit = function(form) {
         // Trigger validation flag.
@@ -571,9 +613,9 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
         // Default values for the request.
         var config = {
 
-            'MAC_address' : $scope.MAC_address,
+            'MAC_address' : $scope.MAC_address.id,
             'node_name' : $scope.node_name,
-            'port_number' : $scope.port_number,
+            'port_number' : $scope.scope.port_in.port,
             'name_company' : $scope.compname.company_name
 
         };
@@ -617,8 +659,20 @@ Clientscontroller.controller('statisticscontroller',function($scope, $http, $win
 
 Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
 
-    $scope.nodeslo={"nodes":[{"id":"00:01:d4:ca:6d:b5:f4:0f","name":"Aixo es 1"},{"id":"00:01:d4:ca:6d:d4:4f:6b","name":""},{"id":"00:01:d4:ca:6d:c4:44:1e","name":""}]};
-    $scope.parse=$scope.nodeslo.nodes;
+    $http.get(API + "/getNodesController")
+        .success(function (data) {
+
+            $scope.nodeslo = data;
+            $scope.nodesloaded=$scope.nodeslo.nodes;
+
+
+        })
+        .error(function () {
+
+
+        });
+
+
     $scope.infomicro={"listWsObjectStats":[{"mac":"00:01:d4:ca:6d:b5:f4:0f","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]},{"mac":"00:01:d4:ca:6d:d4:4f:6b","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]},{"mac":"00:01:d4:ca:6d:c4:44:1e","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]}]}
 
     $scope.ports = [
@@ -667,11 +721,11 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
             return;
         }
 
-        $http.get(API + "/getGraphPortJSON/" + $scope.time+$scope.range.acr+"_"+$scope.MAC_address+"_"+$scope.port_in.port)
+        $http.get(API + "/getGraphPortJSON/" + $scope.time+$scope.range.acr+"_"+$scope.MAC_address.id+"_"+$scope.port_in.port)
             .success(function (data) {
 
                 $scope.rawgraph = data;
-                if (data.length == 0){$scope.nographfound="There is no graph for MAC: "+$scope.MAC_address+" and port: "+$scope.port_in.port;}
+                if (data.length == 0){$scope.nographfound="There is no graph for MAC: "+$scope.MAC_address.id+" and port: "+$scope.port_in.port;}
 
             })
             .error(function () {
@@ -680,4 +734,7 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
             });
     }
 
+
+
 });
+
