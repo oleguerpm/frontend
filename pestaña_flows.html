@@ -48,7 +48,7 @@
 
             <div class="form-group">
               <label for="flowname">Flow Name</label>
-              <span class="label label-danger" data-ng-show="helpForm.flowname.$error.required">Required!</span>
+              <span class="label label-danger" data-ng-show="helpForm.flowname.$error.required">Required! Without spaces</span>
               <input type="text" name="flowname" data-ng-model="flow_name" class="form-control" required />
             </div>
 
@@ -56,7 +56,6 @@
 
               <div class="form-group">
                 <label for="prior">Priority</label>
-                <span class="label label-danger" data-ng-show="helpForm.prior.$error.required">Required!</span>
              <!--    <span class="label label-danger" data-ng-show="helpForm.$error.number">Not a valid number!</span> -->
                 <input type="number" name="prior" data-ng-model="priority" class="form-control" required />
               </div>
@@ -69,43 +68,32 @@
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="port_in">At Port Number</label>
-              <span class="label label-danger" data-ng-show="helpForm.port_in.$error.required">Required!</span>
-              <select ng-model="port_in" name="port_in" class="form-control" required ng-options="portavail.port for portavail in ports">
-              </select>
-            </div>
-
               <div class="form-group">
                 <label for="hardt">Hard Time Out</label>
-                <span class="label label-danger" data-ng-show="helpForm.hardt.$error.required">Required!</span>
+              <!--  <span class="label label-danger" data-ng-show="helpForm.hardt.$error.required">Required!</span> -->
              <!--    <span class="label label-danger" data-ng-show="helpForm.$error.number">Not a valid number!</span> -->
                 <input type="number" name="hardt" data-ng-model="hardtimer" class="form-control" required />
               </div>
 
               <div class="form-group">
                 <label for="idlet">Idle Time Out</label>
-                <span class="label label-danger" data-ng-show="helpForm.idlet.$error.required">Required!</span>
+                <!--<span class="label label-danger" data-ng-show="helpForm.idlet.$error.required">Required!</span>-->
                 <!--  <span class="label label-danger" data-ng-show="helpForm.$error.number">Not a valid number!</span> -->
                  <input type="number" name="idlet" data-ng-model="idletimer" class="form-control" required />
               </div>
 
-              <div class="form-group">
-                <label for="etht">Ethernet Type</label>
-                <span class="label label-danger" data-ng-show="helpForm.etht.$error.required">Ex: 0x800</span>
-                <input type="text" name="etht" data-ng-model="ethtype" class="form-control" required />
-              </div>
+
 
               <div class="form-group">
                 <label for="vlan">VLAN</label>
-                <span class="label label-danger" data-ng-show="helpForm.vlan.$error.required">Required!</span>
+               <!-- <span class="label label-danger" data-ng-show="helpForm.vlan.$error.required">Required!</span>-->
                 <!--      <span class="label label-danger" data-ng-show="helpForm.$error.number">Not a valid number!</span> -->
                 <input type="number" name="vlan" data-ng-model="vlan_number" class="form-control" required />
               </div>
 
               <div class="form-group">
                 <label for="vlanprio">VLAN Priority</label>
-                <span class="label label-danger" data-ng-show="helpForm.vlanprio.$error.required">Required!</span>
+               <!-- <span class="label label-danger" data-ng-show="helpForm.vlanprio.$error.required">Required!</span>-->
               <!--  <span class="label label-danger" data-ng-show="helpForm.$error.number">Not a valid number!</span> -->
               <input type="number" name="vlanprio" data-ng-model="vlan_numberpriority" class="form-control" required />
             </div>
@@ -125,24 +113,33 @@
             <div class="form-group">
               <label for="protocol">Protocol</label>
               <span class="label label-danger" data-ng-show="helpForm.protocol.$error.required">Required!</span>
-              <select ng-model="proto_in" name="protocol" class="form-control" required ng-options="protocol.proto for protocol in protos">
+              <select ng-click="showPorts(MAC_address.id)" ng-model="proto_in" name="protocol" class="form-control" required ng-options="protocol.proto for protocol in protos">
                 </select>
             </div>
 
             <div class="form-group">
-              <label for="installH">Install Hw</label>
-              <span class="label label-danger" data-ng-show="helpForm.installH.$error.required">Required!</span>
-              <select ng-model="installH_in" name="installH" class="form-control" required ng-options="install.boolean for install in booleans">
+              <label for="port_in">At Port Number</label>
+              <span class="label label-danger" data-ng-show="helpForm.port.$error.required">Required!</span>
+              <select ng-model="port_in" name="port_in" class="form-control" required ng-options="portavail for portavail in ports">
               </select>
             </div>
 
             <div class="form-group">
               <label for="action">Action</label>
               <span class="label label-danger" data-ng-show="helpForm.action.$error.required">Required!</span>
-              <select ng-model="action_in" name="action" class="form-control" required ng-options="action for action in actions">
+              <select ng-model="action_in" name="action" class="form-control" required ng-options="act.action for act in actions">
               </select>
             </div>
 
+            <div ng-show=action_in.bool>
+              <div class="form-group">
+                <label for="IPd">Output from port</label>
+                <span class="label label-danger" data-ng-show="helpForm.IPd.$error.required">Required!</span>
+                <select ng-model="port_in" name="port_in" class="form-control" required ng-options="porta.port for porta in portsout">
+                </select>
+              </div>
+
+              </div>
 
 
             <div class="modal-footer">
@@ -160,7 +157,7 @@
 </div> <!--div Tanca tota estructura de modal-->
 
 
-
+</div>
 
 
 </body>

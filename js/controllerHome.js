@@ -298,7 +298,7 @@ Clientscontroller.controller('flowscontroller',function($scope, $http, $window)
     $scope.nodesFound = false;
 
 
-    $http.get(API+"/getAllFlows")
+    $http.get(API+"/getFlows")
         .success(function (data) {
 
             $scope.flows = data;
@@ -356,9 +356,6 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
 
     $scope.protos = [
         {
-            proto: 'BCN'
-        },
-        {
             proto: 'UDP'
         },
         {
@@ -366,24 +363,38 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         }
     ];
 
-    $scope.booleans = [
-        {
-            boolean: 'true'
-        },
-        {
-            boolean: 'false'
-        }
-    ];
 
     $scope.actions = [
 
-        'DROP',
-        'DISCART',
-        'EXAMPLE'
+        {
+            action: 'Controller',
+            bool: 'false'
+        },
+        {
+            action: 'Drop',
+            bool: 'false'
+        },
+        {
+            action: 'HwPath',
+            bool: 'false'
+        },
+        {
+            action: 'Output',
+            bool: 'true'
+        },
+        {
+            action: 'SetVlanId',
+            bool: 'false'
+        },
+        {
+            action: 'SwPath',
+            bool: 'false'
+        }
+
 
     ];
 
-    $scope.ports = [
+    $scope.portsout = [
         {
             port: '1'
 
@@ -402,7 +413,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         }
     ];
 
-    $http.get(API + "/getNodesController")
+    $http.get(API + "/getNodesController")//esto se encarga rafael i lo hara en su sistema, de momento lo dejo por si acaso
         .success(function (data) {
 
             $scope.nodeslo = data;
@@ -414,6 +425,20 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
 
         });
 
+
+    $scope.showPorts = function (mac) {
+        $http.get(API + "/getPortsByMac/" + mac)
+            .success(function (data) {
+                $scope.portsloaded = data;
+                $scope.ports=$scope.portsloaded.listPorts;
+
+
+            })
+            .error(function () {
+
+
+            });
+    }
 
 
 
@@ -433,7 +458,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         var config = {
 
             'name' : $scope.flow_name,
-            'ingressPort' : $scope.port_in.port,
+            'ingressPort' : $scope.port_in,
             'priority' : $scope.priority,
             'node' : {
                 'id' : $scope.MAC_address.id,
@@ -441,13 +466,13 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
             },
             'hardTimeout' : $scope.hardtimer,
             'idleTimeout' : $scope.idletimer,
-            'etherType' : $scope.ethtype,
+            'etherType' : '',
             'vlanId' : $scope.vlan_number,
             'vlanPriority' : $scope.vlan_numberpriority,
             'nwSrc' : $scope.ipSource,
             'nwDst' : $scope.ipDestiny,
             'protocol' : $scope.proto_in.proto,
-            'installHw' : $scope.installH_in.boolean,
+            'installHw' : 'true',
             'actions' : [$scope.action_in]
 
         };
@@ -576,31 +601,25 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
         })
         .error(function () {
 
-
         });
 
-    $scope.ports = [
-        {
-            port: '1'
+$scope.showPorts = function (mac) {
+    $http.get(API + "/getPortsByMac/" + mac)
+        .success(function (data) {
+            $scope.portsloaded = data;
+            $scope.ports=$scope.portsloaded.listPorts;
 
-        },
-        {
-            port: '2'
 
-        },
-        {
-            port: '3'
+        })
+        .error(function () {
 
-        },
-        {
-            port: '4'
 
-        }
-    ];
+        });
+}
 
 
 // Form submit handler.
-    $scope.submit = function(form) {
+        $scope.submit = function(form) {
         // Trigger validation flag.
         $scope.submitted = true;
         $scope.itsok = false;
@@ -615,7 +634,7 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
 
             'MAC_address' : $scope.MAC_address.id,
             'node_name' : $scope.node_name,
-            'port_number' : $scope.scope.port_in.port,
+            'port_number' : $scope.port_in,
             'name_company' : $scope.compname.company_name
 
         };
@@ -708,6 +727,11 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
         }
     ];
     $scope.grafics = [];
+    $scope.deleteItem = function (index) {
+        $scope.grafics.splice(index ,1);};
+
+    $scope.clearAll = function () {
+        $scope.grafics = [];};
 
 // Form submit handler.
     $scope.submit = function(form, port, MAC) {
@@ -727,6 +751,7 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
                 $scope.grafics.push($scope.rawgraph);
 
 
+
                 if (data.length == 0){$scope.nographfound="There is no graph for MAC: "+$scope.MAC_address.id+" and port: "+$scope.port_in.port;}
                 $scope.time=""
                 $scope.range="";
@@ -744,5 +769,6 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
 
 
 });
+
 
 
