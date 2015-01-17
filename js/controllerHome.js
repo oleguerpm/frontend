@@ -579,7 +579,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
 
 
     $scope.showPorts = function (mac) {
-        $http.get(API + "/getPortsByMac/" + mac)
+        $http.get(API + "/getPortsByMac2/" + mac)
             .success(function (data) {
                 $scope.portsloaded = data;
                 $scope.ports=$scope.portsloaded.listPorts;
@@ -600,6 +600,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         // Trigger validation flag.
         $scope.submitted = true;
         $scope.itsok = false;
+        if($scope.action_in.action == "Output"){$scope.action_in = "Output="+$scope.port_outin.id}
 
         // If form is invalid, return and let AngularJS show validation errors.
         if (form.$invalid) {
@@ -610,7 +611,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         var config = {
 
             'name' : $scope.flow_name,
-            'ingressPort' : $scope.port_in,
+            'ingressPort' : $scope.port_in.id,
             'priority' : $scope.priority,
             'node' : {
                 'id' : $scope.MAC_address.id,
@@ -618,14 +619,14 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
             },
             'hardTimeout' : $scope.hardtimer,
             'idleTimeout' : $scope.idletimer,
-            'etherType' : '',
+            'etherType' : '0x800',
             'vlanId' : $scope.vlan_number,
             'vlanPriority' : $scope.vlan_numberpriority,
             'nwSrc' : $scope.ipSource,
             'nwDst' : $scope.ipDestiny,
             'protocol' : $scope.proto_in.proto,
             'installHw' : 'true',
-            'actions' : [$scope.action_in]
+            'actions' : [$scope.action_in.action]
 
         };
 
@@ -633,7 +634,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         // Perform JSONP request.
         var $promise = $http.post(API+"/addFlow", config)
             .success(function(data, status, headers, config) {
-                $window.location.reload();
+                //$window.location.reload();
                 $scope.submitted = true;
                 $scope.itsok = true;
                 $scope.flow_name ="";
@@ -842,8 +843,6 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
         });
 
 
-    $scope.infomicro={"listWsObjectStats":[{"mac":"00:01:d4:ca:6d:b5:f4:0f","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]},{"mac":"00:01:d4:ca:6d:d4:4f:6b","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]},{"mac":"00:01:d4:ca:6d:c4:44:1e","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]}]}
-
 
     $scope.intervalo = [
         {
@@ -892,7 +891,7 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
 
 
     $scope.showPorts = function (mac) {
-        $http.get(API + "/getPortsByMac/" + mac)
+        $http.get(API + "/getPortsByMac2/" + mac)
             .success(function (data) {
                 $scope.portsbymacloaded = data;
                 $scope.portsbymac=$scope.portsbymacloaded.listPorts;
@@ -920,15 +919,13 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
         else $scope.timelidia = $scope.time;
 
 
-        $http.get(API + "/getGraphPort/" + $scope.timelidia+$scope.range.acr+"_"+$scope.MAC_address.id+"_"+$scope.port_in)
+        $http.get(API + "/getGraphPort/" + $scope.timelidia+$scope.range.acr+"_"+$scope.MAC_address.id+"_"+$scope.port_in.id)
             .success(function (data) {
                 $scope.nographfound="";
                 $scope.rawgraph = data;
-                $scope.grafics.push($scope.rawgraph);
+                $scope.grafics.unshift($scope.rawgraph);
 
-
-
-                if (data.length == 0){$scope.nographfound="There is no graph for MAC: "+$scope.MAC_address.id+" and port: "+$scope.port_in.port;}
+                if (data.length == 0){$scope.nographfound="There is no graph for MAC: "+$scope.MAC_address.id+" and port: "+$scope.port_in.id;}
                 $scope.time=""
                 $scope.range="";
                 $scope.MAC_address="";
