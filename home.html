@@ -192,68 +192,78 @@
 						<div class="container-fluid">
 							<!-- Tab panes -->
 							<div class="tab-content">
-								<div class="tab-pane fade in active" id="home">
+                                <div class="tab-pane fade in active" id="home">
                                     <div class="container-fluid" id="container"></div>
                                     <script src="js/sigma.min.js"></script>
-                                    <script src="js/sigma.parsers.gexf.min.js"></script>
+                                    <script src="js/sigma.parsers.json.min.js"></script>
+                                    <script src="js/sigma.plugins.dragNodes.js"></script>
+                                    <script src="js/shape-library.js"></script>
+                                    <script src="js/sigma.renderers.customShapes.js"></script>
                                     <script>
-                                        sigma.classes.graph.addMethod('neighbors', function(nodeId) {
-                                            var k,
-                                                    neighbors = {},
-                                                    index = this.allNeighborsIndex[nodeId] || {};
+                                        var g = {
+                                            nodes: [],
+                                            edges: []
+                                        };
 
-                                            for (k in index)
-                                                neighbors[k] = this.nodesIndex[k];
+                                        sigma.renderers.def = sigma.renderers.canvas
 
-                                            return neighbors;
+
+                                        s = new sigma({
+                                            graph: g,
+                                            container: 'container',
+                                            renderer: {
+                                                container: document.getElementById('container'),
+                                                type: 'canvas'
+                                            },
+                                            settings: {
+                                                minNodeSize: 8,
+                                                maxNodeSize: 16
+                                            }
                                         });
 
-                                        sigma.parsers.gexf('test.gexf', {
-                                                    container: 'container'},
-                                                function(s) {
-                                                    s.graph.nodes().forEach(function(n) {
-                                                        n.originalColor = n.color;
-                                                    });
-                                                    s.graph.edges().forEach(function(e) {
-                                                        e.originalColor = e.color;
-                                                    });
 
-                                                    s.bind('clickNode', function(e) {
-                                                        var nodeId = e.data.node.id,
-                                                                toKeep = s.graph.neighbors(nodeId);
-                                                        toKeep[nodeId] = e.data.node;
 
-                                                        s.graph.nodes().forEach(function(n) {
-                                                            if (toKeep[n.id])
-                                                                n.color = n.originalColor;
-                                                            else
-                                                                n.color = '#eee';
-                                                        });
+                                        sigma.parsers.json('http://147.83.113.109:8080/jersey-quickstart-webapp/beflow/myresource/getTopologyController',
+                                                s,
+                                                function() {
+                                                    // this is needed in case the original JSON doesn't have color / size / x-y attributes
+                                                    var i,
+                                                            nodes = s.graph.nodes(),
+                                                            len = nodes.length;
 
-                                                        s.graph.edges().forEach(function(e) {
-                                                            if (toKeep[e.source] && toKeep[e.target])
-                                                                e.color = e.originalColor;
-                                                            else
-                                                                e.color = '#eee';
-                                                        });
+                                                    for (i = 0; i < len; i++) {
+                                                        nodes[i].x = Math.random();
+                                                        nodes[i].y = Math.random();
+                                                        nodes[i].size = s.graph.degree(nodes[i].id);
+                                                        nodes[i].color = nodes[i].center ? '#ff8100' : '#ff8100';
+                                                        nodes[i].type='pacman'
 
-                                                        s.refresh();
-                                                    });
+                                                    }
 
-                                                    s.bind('clickStage', function(e) {
-                                                        s.graph.nodes().forEach(function(n) {
-                                                            n.color = n.originalColor;
-                                                        });
 
-                                                        s.graph.edges().forEach(function(e) {
-                                                            e.color = e.originalColor;
-                                                        });
+                                                    // Refresh the display:
+                                                    s.refresh();
 
-                                                        s.refresh();
-                                                    });
-                                                });
+                                                }
+                                        );
+
+                                        // Initialize the dragNodes plugin:
+                                        var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+
+                                        dragListener.bind('startdrag', function(event) {
+                                            console.log(event);
+                                        });
+                                        dragListener.bind('drag', function(event) {
+                                            console.log(event);
+                                        });
+                                        dragListener.bind('drop', function(event) {
+                                            console.log(event);
+                                        });
+                                        dragListener.bind('dragend', function(event) {
+                                            console.log(event);
+                                        });
                                     </script>
-								</div>
+                                </div>
 
                                 <div class="tab-pane fade" id="clients">
                                     <div ng-include src=" 'pestaña_clients.html' "></div>
