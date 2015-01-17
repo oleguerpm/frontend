@@ -105,14 +105,14 @@
               <label for="MAC_address">Switch</label>
               <span class="label label-danger" data-ng-show="helpForm.MAC_address.$error.required">Required!</span>
               <select ng-model="MAC_address" name="MAC_address" class="form-control"
-                      ng-options="mikro.name+' - '+mikro.id for mikro in nodesloaded" required />
+                      ng-options="mikro.name+' - '+mikro.id for mikro in nodesloaded" ng-mouseup="showPorts(MAC_address.id)" required />
               </select>
             </div>
 
             <div class="form-group">
               <label for="port_in">At Port Number</label>
               <span class="label label-danger" data-ng-show="helpForm.port_in.$error.required">Required!</span>
-              <select  ng-mousemove="showPorts(MAC_address.id)" ng-model="port_in" name="port_in" class="form-control" required ng-options="portavail for portavail in portsbymacnodes">
+              <select ng-model="port_in" name="port_in" class="form-control" required ng-options="portavail for portavail in portsbymacnodes">
               </select>
             </div>
 
