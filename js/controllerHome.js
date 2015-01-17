@@ -546,24 +546,6 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
 
     ];
 
-    $scope.portsout = [
-        {
-            port: '1'
-
-        },
-        {
-            port: '2'
-
-        },
-        {
-            port: '3'
-
-        },
-        {
-            port: '4'
-
-        }
-    ];
 
     $http.get(API + "/getNodesController")//esto se encarga rafael i lo hara en su sistema, de momento lo dejo por si acaso
         .success(function (data) {
@@ -600,8 +582,11 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         // Trigger validation flag.
         $scope.submitted = true;
         $scope.itsok = false;
-        if($scope.action_in.action == "Output"){$scope.action_in = "Output="+$scope.port_outin.id}
 
+        if($scope.action_in.action == "Output"){$scope.action = "Output="+$scope.port_outin.id;}
+        else{$scope.action=$scope.action_in.action;}
+
+        $scope.misss=$scope.action_in;
         // If form is invalid, return and let AngularJS show validation errors.
         if (form.$invalid) {
             return;
@@ -611,7 +596,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         var config = {
 
             'name' : $scope.flow_name,
-            'ingressPort' : $scope.port_in.id,
+            'ingressPort' : $scope.port_flow.id,
             'priority' : $scope.priority,
             'node' : {
                 'id' : $scope.MAC_address.id,
@@ -626,7 +611,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
             'nwDst' : $scope.ipDestiny,
             'protocol' : $scope.proto_in.proto,
             'installHw' : 'true',
-            'actions' : [$scope.action_in.action]
+            'actions' : [$scope.action]
 
         };
 
@@ -877,7 +862,7 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
         $scope.grafics = [];};
 
 
-    $http.get(API + "/getNodesController")//esto se encarga rafael i lo hara en su sistema, de momento lo dejo por si acaso
+    $http.get(API + "/getNodesController")
         .success(function (data) {
 
             $scope.nodeslo = data;

@@ -29,7 +29,7 @@
     Add Flow
   </button>
 
-
+  {{misss}}
   <table class="table" id="infoadmins" style="overflow: auto">
 
     <thead>
@@ -104,9 +104,8 @@
             </div>
 
             <div class="form-group">
-              <label for="port_in">At Port Number</label>
-              <span class="label label-danger" data-ng-show="helpForm.port_in.$error.required">Required!</span>
-              <select ng-model="port_in" name="port_in" class="form-control" required ng-options="portavail.name for portavail in ports">
+              <label for="port_in">Input Port</label>
+              <select ng-model="port_flow" name="port_flow" class="form-control" ng-options="portavail.name for portavail in ports">
               </select>
             </div>
 
@@ -150,21 +149,21 @@
 
             <div class="form-group">
               <label for="IPs">Source IP</label>
-              <span class="label label-danger" data-ng-show="helpForm.IPs.$error.required">Required!</span>
-              <input type="text" name="IPs" data-ng-model="ipSource" class="form-control" required />
+
+              <input type="text" name="IPs" data-ng-model="ipSource" class="form-control">
             </div>
 
 
             <div class="form-group">
               <label for="IPd">Destination IP</label>
-              <span class="label label-danger" data-ng-show="helpForm.IPd.$error.required">Required!</span>
-              <input type="text" name="IPd" data-ng-model="ipDestiny" class="form-control" required />
+
+              <input type="text" name="IPd" data-ng-model="ipDestiny" class="form-control">
             </div>
 
             <div class="form-group">
               <label for="protocol">Protocol</label>
-              <span class="label label-danger" data-ng-show="helpForm.protocol.$error.required">Required!</span>
-              <select ng-model="proto_in" name="protocol" class="form-control" required ng-options="protocol.proto for protocol in protos">
+
+              <select ng-model="proto_in" name="protocol" class="form-control" ng-options="protocol.proto for protocol in protos">
                 </select>
             </div>
 
