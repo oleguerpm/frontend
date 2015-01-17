@@ -286,6 +286,156 @@ Clientscontroller.controller('helpadmin', function ($scope, $http, $log, promise
 
     };
 });
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/*/////////////////////////////////////////////////SWITCH/////////////////////////////////////////////////////////// */
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+
+Clientscontroller.controller('switchcontroller',function($scope, $http, $window)
+{
+
+    $scope.switchFound = false;
+
+    $http.get(API+"/getNodesController")
+        .success(function (data) {
+
+            $scope.nodeslo = data;
+            $scope.nodesloaded = $scope.nodeslo.nodes;
+            $scope.loadedloaded = true;
+
+        })
+        .error(function () {
+            $scope.nodesNotFound = true;
+            $scope.hihaerror = "aqui no s'ha trobat res";
+        });
+
+    $scope.showPorts = function (mac) {
+        $http.get(API + "/getPortsByMac/" + mac)
+            .success(function (data) {
+                $scope.portsloaded = data;
+                $scope.ports=$scope.portsloaded.listPorts;
+
+
+            })
+            .error(function () {
+            });
+    }
+
+
+
+    $scope.editNode = function () {
+
+
+        $scope.proba="Aixo es edit";
+
+    }
+
+
+
+
+    $scope.deleteNode = function(name){
+        $http.delete(API+"/delNode/"+name)
+            .success(function(response, status, headers, config){
+                $scope.missatge="S'ha esborrat be";
+                $window.location.reload();
+            })
+            .error(function(response, status, headers, config){
+                $scope.missatge="No s'ha borrat be";
+            });
+    }
+
+
+});
+
+
+
+Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
+    var headers = {'Content-Type': 'application/json'};
+    $http.get(API+"/getAllCompanies")
+        .success(function (data) {
+
+            $scope.companiesname = data;
+            $scope.loaded = true;
+
+        })
+        .error(function () {
+            $scope.companyNotFound = true;
+            $scope.hihaerror = "aqui no s'ha trobat res";
+        });
+
+    $http.get(API + "/getNodesController")
+        .success(function (data) {
+
+            $scope.nodeslo = data;
+            $scope.nodesloaded=$scope.nodeslo.nodes;
+
+
+        })
+        .error(function () {
+
+        });
+
+    $scope.showPorts = function (mac) {
+        $http.get(API + "/getPortsByMac/" + mac)
+            .success(function (data) {
+                $scope.portsloaded = data;
+                $scope.ports=$scope.portsloaded.listPorts;
+
+
+            })
+            .error(function () {
+            });
+    }
+
+
+// Form submit handler.
+    $scope.submit = function(form) {
+        // Trigger validation flag.
+        $scope.submitted = true;
+        $scope.itsok = false;
+
+        // If form is invalid, return and let AngularJS show validation errors.
+        if (form.$invalid) {
+            return;
+        }
+
+        // Default values for the request.
+        var config = {
+
+            'MAC_address' : $scope.MAC_address.id,
+            'node_name' : $scope.node_name,
+            'port_number' : $scope.port_in,
+            'name_company' : $scope.compname.company_name
+
+        };
+
+
+        // Perform JSONP request.
+        var $promise = $http.post(API+"/addNode", config)
+            .success(function(data, status, headers, config) {
+                $window.location.reload();
+                $scope.submitted = true;
+                $scope.itsok = true;
+                $scope.MAC_address="";
+                $scope.node_name="";
+                $scope.port_number="";
+                $scope.name_company="";
+
+
+
+            }
+        )
+            .error(function(data, status, headers, config) {
+                $scope.progress = data;
+                $scope.messages = 'There was a network error. Try again later.';
+                $log.error(data);
+            })
+
+
+
+    };
+});
+
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /*/////////////////////////////////////////////////FLOWS//////////////////////////////////////////////////////////// */
@@ -301,8 +451,10 @@ Clientscontroller.controller('flowscontroller',function($scope, $http, $window)
     $http.get(API+"/getFlows")
         .success(function (data) {
 
-            $scope.flows = data;
+            $scope.flowslo = data;
+            $scope.flowsloaded=$scope.flowslo.flowConfig;
             $scope.loaded = true;
+
 
         })
         .error(function () {
@@ -336,8 +488,8 @@ Clientscontroller.controller('flowscontroller',function($scope, $http, $window)
 
 
 
-    $scope.deleteNode = function(name){
-        $http.delete(API+"/delNode/"+name)
+    $scope.deleteFlow = function(name,mac){
+        $http.get(API+"/delFlow/"+name+"/"+mac)
             .success(function(response, status, headers, config){
                 $scope.missatge="S'ha esborrat be";
                 $window.location.reload();
@@ -490,7 +642,6 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
                 $scope.MAC_address="";
                 $scope.hardtimer="";
                 $scope.idletimer="";
-                $scope.ethtype="";
                 $scope.vlan_number="";
                 $scope.vlan_numberpriority="";
                 $scope.ipSource="";
@@ -606,8 +757,8 @@ Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseT
 $scope.showPorts = function (mac) {
     $http.get(API + "/getPortsByMac/" + mac)
         .success(function (data) {
-            $scope.portsloaded = data;
-            $scope.ports=$scope.portsloaded.listPorts;
+            $scope.portsloadednodes = data;
+            $scope.portsbymacnodes=$scope.portsloadednodes.listPorts;
 
 
         })
@@ -693,38 +844,31 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
 
     $scope.infomicro={"listWsObjectStats":[{"mac":"00:01:d4:ca:6d:b5:f4:0f","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]},{"mac":"00:01:d4:ca:6d:d4:4f:6b","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]},{"mac":"00:01:d4:ca:6d:c4:44:1e","listPorts":[{"portId":"1","receivePackets":0,"transmitPackets":2},{"portId":"2","receivePackets":2190,"transmitPackets":203},{"portId":"3","receivePackets":2192,"transmitPackets":204},{"portId":"4","receivePackets":6606,"transmitPackets":37638}]}]}
 
-    $scope.ports = [
-        {
-            port: '1'
-
-        },
-        {
-            port: '2'
-
-        },
-        {
-            port: '3'
-
-        },
-        {
-            port: '4'
-
-        }
-    ];
 
     $scope.intervalo = [
         {
-            acr: 'w',
-            name: 'weeks'
+            acr: '-',
+            name: 'minutes'
+        },
+
+        {
+            acr: 'h',
+            name: 'hours'
         },
         {
             acr: 'd',
             name: 'days'
         },
         {
-            acr: 'h',
-            name: 'hours'
+            acr: 'w',
+            name: 'weeks'
+        },
+        {
+            acr: 'm',
+            name: 'months'
         }
+
+
     ];
     $scope.grafics = [];
     $scope.deleteItem = function (index) {
@@ -732,6 +876,34 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
 
     $scope.clearAll = function () {
         $scope.grafics = [];};
+
+
+    $http.get(API + "/getNodesController")//esto se encarga rafael i lo hara en su sistema, de momento lo dejo por si acaso
+        .success(function (data) {
+
+            $scope.nodeslo = data;
+            $scope.nodesloaded=$scope.nodeslo.nodes;
+
+
+        })
+        .error(function () {
+
+        });
+
+
+    $scope.showPorts = function (mac) {
+        $http.get(API + "/getPortsByMac/" + mac)
+            .success(function (data) {
+                $scope.portsbymacloaded = data;
+                $scope.portsbymac=$scope.portsbymacloaded.listPorts;
+
+
+            })
+            .error(function () {
+
+
+            });
+    }
 
 // Form submit handler.
     $scope.submit = function(form, port, MAC) {
@@ -744,7 +916,11 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
             return;
         }
 
-        $http.get(API + "/getGraphPort/" + $scope.time+$scope.range.acr+"_"+$scope.MAC_address.id+"_"+$scope.port_in.port)
+        if($scope.time < 10){$scope.timelidia = $scope.time+'&';}
+        else $scope.timelidia = $scope.time;
+
+
+        $http.get(API + "/getGraphPort/" + $scope.timelidia+$scope.range.acr+"_"+$scope.MAC_address.id+"_"+$scope.port_in)
             .success(function (data) {
                 $scope.nographfound="";
                 $scope.rawgraph = data;
