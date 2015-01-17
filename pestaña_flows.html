@@ -154,6 +154,7 @@
               <input type="text" name="IPs" data-ng-model="ipSource" class="form-control" required />
             </div>
 
+
             <div class="form-group">
               <label for="IPd">Destination IP</label>
               <span class="label label-danger" data-ng-show="helpForm.IPd.$error.required">Required!</span>
@@ -179,7 +180,7 @@
 
               <div class="form-group">
                 <label for="IPd">Output from Port</label>
-                <select ng-model="port_outin" name="port_outin" class="form-control" required ng-options="portavail.name for portavail in ports">
+                <select ng-model="port_outin" name="port_outin" class="form-control" ng-options="portavail.name for portavail in ports">
                 </select>
               </div>
 

@@ -600,7 +600,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         // Trigger validation flag.
         $scope.submitted = true;
         $scope.itsok = false;
-        if($scope.action == "Output"){$scope.action = "Output="+$scope.port_outin.id}
+        if($scope.action_in.action == "Output"){$scope.action_in = "Output="+$scope.port_outin.id}
 
         // If form is invalid, return and let AngularJS show validation errors.
         if (form.$invalid) {
@@ -619,14 +619,14 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
             },
             'hardTimeout' : $scope.hardtimer,
             'idleTimeout' : $scope.idletimer,
-            'etherType' : '',
+            'etherType' : '0x800',
             'vlanId' : $scope.vlan_number,
             'vlanPriority' : $scope.vlan_numberpriority,
             'nwSrc' : $scope.ipSource,
             'nwDst' : $scope.ipDestiny,
             'protocol' : $scope.proto_in.proto,
             'installHw' : 'true',
-            'actions' : [$scope.action_in]
+            'actions' : [$scope.action_in.action]
 
         };
 
@@ -923,7 +923,7 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
             .success(function (data) {
                 $scope.nographfound="";
                 $scope.rawgraph = data;
-                $scope.grafics.push($scope.rawgraph);
+                $scope.grafics.unshift($scope.rawgraph);
 
                 if (data.length == 0){$scope.nographfound="There is no graph for MAC: "+$scope.MAC_address.id+" and port: "+$scope.port_in.id;}
                 $scope.time=""
