@@ -124,7 +124,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
 
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="index.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -181,17 +181,20 @@
 								</li>
 								<li><a href="#statistics" data-toggle="tab">Statistics</a>
 								</li>
-								<li><a href="#policies" data-toggle="tab">Policies</a>
-								</li>
+								
 							</ul>
 						</div>
 						<!-- /.panel-body -->
 					</div>
 					<div class="row">
 						<div class="container-fluid">
+
 							<!-- Tab panes -->
 							<div class="tab-content">
                                 <div class="tab-pane fade in active" id="home">
+                                    <button type="button" class="btn-primary btn-circle btn-lg" data-toggle="modal" data-target="#myModalxarxa">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
                                     <div class="container-fluid" id="container"></div>
                                     <script src="js/sigma.min.js"></script>
                                     <script src="js/sigma.parsers.json.min.js"></script>
@@ -265,29 +268,26 @@
                                 </div>
 
                                 <div class="tab-pane fade" id="clients">
-                                    <div ng-include src=" 'pestaña_clients.html' "></div>
+                                    <div ng-include src=" 'clientsTab.html' "></div>
                                 </div>
 
 								<div class="tab-pane fade" id="nodes">
-                                    <div ng-include src=" 'pestaña_Nodes.html' "></div>
+                                    <div ng-include src=" 'nodesTab.html' "></div>
 								</div>
 
                                 <div class="tab-pane fade" id="flows_pane">
-                                    <div ng-include src=" 'pestaña_flows.html' "></div>
+                                    <div ng-include src=" 'flowsTab.html' "></div>
                                 </div>
 
                                 <div class="tab-pane fade" id="switch">
-                                    <div ng-include src=" 'pestaña_switch.html' "></div>
+                                    <div ng-include src=" 'switchTab.html' "></div>
 
 								</div>
 								<div class="tab-pane fade" id="statistics">
-                                    <div ng-include src=" 'pestaña_statistics.html' "></div>
+                                    <div ng-include src=" 'statisticsTab.html' "></div>
 
 								</div>
-								<div class="tab-pane fade" id="policies">
-									<h4>Policies Tab</h4>
-									<p>texto</p>
-								</div>
+
 							</div>
 						</div>
 					</div>
@@ -304,6 +304,42 @@
     </div>
     <!-- /#wrapper -->
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalxarxa" tabindex="-1" role="dialog" aria-labelledby="myModalLabelComp" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabelComp">Network Status</h4>
+                </div>
+
+                    <div class="modal-body">
+
+                        <table class="table" id="infosnet">
+
+                            <thead>
+                            <tr>
+                                <th><h4> Connections </h4></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Mikrotik 4</td>
+                                <td>Mikrotik 4</td>
+                                <td>Mikrotik 4</td>
+                                <td>Mikrotik 4</td>
+                                <td>Mikrotik 4</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div> <!--div ue tenca el modal body-->
+
+
+            </div>
+        </div>
+    </div> <!--div Tanca tota estructura de modal-->
 
 
 

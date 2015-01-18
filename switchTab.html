@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp_switchs">
+<head>
+
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript" src="js/controllerswitchs.js"></script>
+
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+</head>
+
+
+
+<body class="container">
+<div ng-controller="switchcontroller">
+
+
+    <label class="checkbox">
+        <input type="checkbox" ng-model="oneAtATime">
+        Open only one at a time
+    </label>
+    <accordion close-others="oneAtATime">
+
+        <accordion close-others="oneAtATime">
+
+            <accordion-group heading="{{nodes.name}}" ng-repeat="nodes in nodesloaded" ng-click="showPorts(nodes.id)">
+
+                <div id="quiet" class="clearfix"></div>
+
+
+                <h4>Mac: </h4>{{nodes.id}}
+                <h4>Capabilities: </h4>{{caploaded}}
+                    <table class="table" id="infosw">
+
+                        <thead>
+                        <tr>
+
+                            <th><h4> Ports: </h4></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="port in ports">
+                            <td>{{port}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+            </accordion-group>
+        </accordion>
+
+
+
+
+</div>
+
+
+</body>
+
+
+
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<script src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>
+<!-- Angular -->
+<script src="js/angular.min.js"></script>
+<script src="js/angular-route.js"></script>
+<script type="text/javascript" src="js/promise-tracker.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+</html>

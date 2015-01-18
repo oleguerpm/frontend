@@ -4,6 +4,75 @@ var API="http://147.83.113.109:8080/jersey-quickstart-webapp/beflow/myresource";
 
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/*/////////////////////////////////////////////////LOGIN//////////////////////////////////////////////////////////// */
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+Clientscontroller.controller('logincontroller', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
+    var headers = {'Content-Type': 'application/json; charset=utf-8'}
+    $scope.errormiserr="";
+    $scope.errormispass="";
+    $scope.errorok="";
+    $scope.userNoOk=true;
+
+
+// Form submit handler.
+    $scope.submit = function(form) {
+        // Trigger validation flag.
+        $scope.errormispass="";
+        $scope.errormiserr="";
+        $scope.errorok="";
+        $scope.submitted = true;
+        $scope.itsok = false;
+
+        // If form is invalid, return and let AngularJS show validation errors.
+        if (form.$invalid) {
+            return;
+        }
+
+        // Default values for the request.
+        var config = {
+
+            'login' : $scope.email,
+            'pass' : $scope.password
+
+
+        };
+
+
+
+        // Perform JSONP request.
+        var $promise = $http.post(API+"/login", config)
+            .success(function(data, status, headers, config, HttpPromise, response) {
+                $scope.usuariintro=$scope.email;
+                $scope.url="";
+                $scope.submitted = true;
+                $scope.itsok = true;
+                if (data == 600){$scope.errormiserr="The combination is not correct"; $scope.password=""; $scope.email="";}
+                else if (data == 400){$scope.errormispass="The combination is not correct"; $scope.password=""; $scope.email="";}
+                else {$scope.errorok="Well done"; $scope.url="home.html"; $scope.userNoOk=false; }
+
+
+
+            }
+        )
+
+            .error(function(data, status, headers, config, response) {
+                $scope.progress = data;
+                $scope.itsok=false;
+                $scope.messages = 'There was a network error. Try again later.';
+                $log.error(data);
+
+
+
+            })
+
+    };
+
+
+});
+
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /*/////////////////////////////////////////////////HOME///////////////////////////////////////////////////////////// */
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
@@ -288,7 +357,7 @@ Clientscontroller.controller('helpadmin', function ($scope, $http, $log, promise
     };
 });
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
-/*/////////////////////////////////////////////////SWITCH/////////////////////////////////////////////////////////// */
+/*/////////////////////////////////////////////////SWTCH/////////////////////////////////////////////////////////// */
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
@@ -320,123 +389,20 @@ Clientscontroller.controller('switchcontroller',function($scope, $http, $window)
             })
             .error(function () {
             });
-    }
-
-
-
-    $scope.editNode = function () {
-
-
-        $scope.proba="Aixo es edit";
-
-    }
-
-
-
-
-    $scope.deleteNode = function(name){
-        $http.delete(API+"/delNode/"+name)
-            .success(function(response, status, headers, config){
-                $scope.missatge="S'ha esborrat be";
-                $window.location.reload();
-            })
-            .error(function(response, status, headers, config){
-                $scope.missatge="No s'ha borrat be";
-            });
-    }
-
-
-});
-
-
-
-Clientscontroller.controller('helpnode', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
-    var headers = {'Content-Type': 'application/json'};
-    $http.get(API+"/getAllCompanies")
-        .success(function (data) {
-
-            $scope.companiesname = data;
-            $scope.loaded = true;
-
-        })
-        .error(function () {
-            $scope.companyNotFound = true;
-            $scope.hihaerror = "aqui no s'ha trobat res";
-        });
-
-    $http.get(API + "/getNodesController")
-        .success(function (data) {
-
-            $scope.nodeslo = data;
-            $scope.nodesloaded=$scope.nodeslo.nodes;
-
-
-        })
-        .error(function () {
-
-        });
-
-    $scope.showPorts = function (mac) {
-        $http.get(API + "/getPortsByMac/" + mac)
+        $http.get(API + "/getCapByMac/" + mac)
             .success(function (data) {
-                $scope.portsloaded = data;
-                $scope.ports=$scope.portsloaded.listPorts;
+                $scope.caploaded = data;
+
 
 
             })
             .error(function () {
             });
+
     }
 
 
-// Form submit handler.
-    $scope.submit = function(form) {
-        // Trigger validation flag.
-        $scope.submitted = true;
-        $scope.itsok = false;
-
-        // If form is invalid, return and let AngularJS show validation errors.
-        if (form.$invalid) {
-            return;
-        }
-
-        // Default values for the request.
-        var config = {
-
-            'MAC_address' : $scope.MAC_address.id,
-            'node_name' : $scope.node_name,
-            'port_number' : $scope.port_in,
-            'name_company' : $scope.compname.company_name
-
-        };
-
-
-        // Perform JSONP request.
-        var $promise = $http.post(API+"/addNode", config)
-            .success(function(data, status, headers, config) {
-                $window.location.reload();
-                $scope.submitted = true;
-                $scope.itsok = true;
-                $scope.MAC_address="";
-                $scope.node_name="";
-                $scope.port_number="";
-                $scope.name_company="";
-
-
-
-            }
-        )
-            .error(function(data, status, headers, config) {
-                $scope.progress = data;
-                $scope.messages = 'There was a network error. Try again later.';
-                $log.error(data);
-            })
-
-
-
-    };
 });
-
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /*/////////////////////////////////////////////////FLOWS//////////////////////////////////////////////////////////// */
@@ -828,24 +794,9 @@ $scope.showPorts = function (mac) {
 /*/////////////////////////////////////////////////STATISTICS/////////////////////////////////////////////////////// */
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-Clientscontroller.controller('statisticscontroller',function($scope, $http, $window) {
 
-});
 
 Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, promiseTracker, $timeout, $route, $window) {
-
-    $http.get(API + "/getNodesController")
-        .success(function (data) {
-
-            $scope.nodeslo = data;
-            $scope.nodesloaded=$scope.nodeslo.nodes;
-
-
-        })
-        .error(function () {
-
-
-        });
 
 
 
@@ -948,5 +899,82 @@ Clientscontroller.controller('helpstatistics', function ($scope, $http, $log, pr
 
 });
 
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/*/////////////////////////////////////////////////POLICIES///////////////////////////////////////////////////////// */
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
+
+Clientscontroller.controller('policiescontroller',function($scope, $http, $window)
+{
+
+    $scope.policies = [];
+    $scope.deleteItem = function (index) {
+        $scope.policies.splice(index ,1);};
+
+    $scope.clearAll = function () {
+        $scope.policies = [];};
+
+
+    $http.get(API + "/getNodesController")
+        .success(function (data) {
+
+            $scope.nodeslo = data;
+            $scope.nodesloaded=$scope.nodeslo.nodes;
+
+
+        })
+        .error(function () {
+
+        });
+
+
+    $scope.showPorts = function (mac) {
+        $http.get(API + "/getPortsByMac2/" + mac)
+            .success(function (data) {
+                $scope.portsbymacloaded = data;
+                $scope.portsbymac=$scope.portsbymacloaded.listPorts;
+
+
+            })
+            .error(function () {
+
+
+            });
+    }
+
+// Form submit handler.
+    $scope.submit = function(form, port, MAC) {
+        // Trigger validation flag.
+        $scope.submitted = true;
+        $scope.itsok = false;
+
+        // If form is invalid, return and let AngularJS show validation errors.
+        if (form.$invalid) {
+            return;
+        }
+
+
+
+        $http.get(API + "/getPolicies/" + $scope.MAC_address.id+"_"+$scope.port_in.id)
+            .success(function (data) {
+
+                $scope.rawdata = data;
+                $scope.policies.unshift($scope.rawdata);
+
+
+                $scope.MAC_address="";
+                $scope.port_in="";
+
+
+
+            })
+            .error(function () {
+
+
+            });
+    }
+
+
+
+});
 
