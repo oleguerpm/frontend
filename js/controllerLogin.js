@@ -12,6 +12,7 @@ Clientscontroller.controller('logincontroller', function ($scope, $http, $log, p
     $scope.errormiserr="";
     $scope.errormispass="";
     $scope.errorok="";
+    $scope.userNoOk=true;
 
 // Form submit handler.
     $scope.submit = function(form) {
@@ -47,7 +48,7 @@ Clientscontroller.controller('logincontroller', function ($scope, $http, $log, p
                 $scope.itsok = true;
                 if (data == 600){$scope.errormiserr="The combination is not correct"; $scope.password=""; $scope.email="";}
                 else if (data == 400){$scope.errormispass="The combination is not correct"; $scope.password=""; $scope.email="";}
-                else {$scope.errorok="Well done"; $scope.url="home.html"}
+                else {$scope.errorok="Well done"; $scope.url="home.html"; $scope.userNoOk=false;}
 
 
 
