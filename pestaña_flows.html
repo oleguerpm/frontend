@@ -149,20 +149,17 @@
 
             <div class="form-group">
               <label for="IPs">Source IP</label>
-
               <input type="text" name="IPs" data-ng-model="ipSource" class="form-control">
             </div>
 
 
             <div class="form-group">
               <label for="IPd">Destination IP</label>
-
               <input type="text" name="IPd" data-ng-model="ipDestiny" class="form-control">
             </div>
 
             <div class="form-group">
               <label for="protocol">Protocol</label>
-
               <select ng-model="proto_in" name="protocol" class="form-control" ng-options="protocol.proto for protocol in protos">
                 </select>
             </div>
@@ -175,7 +172,17 @@
               </select>
             </div>
 
-            <div ng-show=action_in.bool>
+            <div ng-show="action_in.bool=='true2'">
+
+              <div class="form-group">
+                <label for="setvil">Set Vlan Number</label>
+                <input type="number" name="setvi" data-ng-model="setvi" class="form-control">
+
+              </div>
+
+            </div>
+
+            <div ng-show="action_in.bool=='true3'">
 
               <div class="form-group">
                 <label for="IPd">Output from Port</label>
@@ -202,7 +209,7 @@
 
 
 </div>
-
+<p><font size="2"><mark>When priority has a vaule, Vlan priority appears to be the same. This is an error from OpenDayLight REST API</mark></font> </p>
 
 </body>
 

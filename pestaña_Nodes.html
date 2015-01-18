@@ -122,7 +122,7 @@
               <span class="label label-danger" data-ng-show="helpForm.compname.$error.required">Required!</span>
               <select ng-click="showPorts(MAC_address.id)" ng-model="compname" name="compname" class="form-control" required ng-options="company_info.company_name for company_info in companiesname">
               </select>
-
+            </div>
 
 
           <div class="modal-footer">
@@ -130,6 +130,7 @@
             <button type="submit" data-ng-disabled="helpForm.$invalid" data-ng-click="submit(helpForm)" data-dismiss="itsok" class="btn btn-primary">Check and Submit</button>
 
           </div>
+
           </form>
 
         </div> <!--div ue tenca el modal body-->

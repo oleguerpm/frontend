@@ -520,11 +520,11 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
     $scope.actions = [
 
         {
-            action: 'Controller',
+            action: 'CONTROLLER',
             bool: 'false'
         },
         {
-            action: 'Drop',
+            action: 'DROP',
             bool: 'false'
         },
         {
@@ -532,12 +532,12 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
             bool: 'false'
         },
         {
-            action: 'Output',
-            bool: 'true'
+            action: 'OUTPUT',
+            bool: 'true3'
         },
         {
             action: 'SetVlanId',
-            bool: 'false'
+            bool: 'true2'
         },
         {
             action: 'SwPath',
@@ -584,8 +584,26 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         $scope.submitted = true;
         $scope.itsok = false;
 
-        if($scope.action_in.action == "Output"){$scope.action = "Output="+$scope.port_outin.id;}
+        if($scope.action_in.action == "OUTPUT"){$scope.action = "OUTPUT="+$scope.port_outin.id; $scope.priority = "500"}
         else{$scope.action=$scope.action_in.action;}
+
+        if($scope.action_in.action == "SetVlanId"){$scope.action = "SetVlanId="+$scope.setvi;}
+        else{$scope.action=$scope.action_in.action;}
+
+        if ($scope.proto_in == undefined) {$scope.protocol_in = undefined;}
+        else {$scope.protocol_in = $scope.proto_in.proto;}
+
+        if ($scope.port_flow == undefined) {$scope.inputPort = undefined;}
+        else {$scope.inputPort = $scope.port_flow.id;}
+
+        if ($scope.hardtimer == "") {$scope.hardtimer = undefined;}
+        if ($scope.idletimer == "") {$scope.idletimer = undefined;}
+        if ($scope.vlan_number == "") {$scope.vlan_number = undefined;}
+        if ($scope.vlan_numberpriority == "") {$scope.vlan_numberpriority = undefined;}
+        if ($scope.ipSource == "") {$scope.ipSource = undefined;}
+        if ($scope.ipDestiny == "") {$scope.ipDestiny = undefined;}
+        if ($scope.priority == "") {$scope.priority = undefined;}
+
 
         $scope.misss=$scope.action_in;
         // If form is invalid, return and let AngularJS show validation errors.
@@ -597,7 +615,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         var config = {
 
             'name' : $scope.flow_name,
-            'ingressPort' : $scope.port_flow.id,
+            'ingressPort' : $scope.inputPort,
             'priority' : $scope.priority,
             'node' : {
                 'id' : $scope.MAC_address.id,
@@ -610,7 +628,7 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
             'vlanPriority' : $scope.vlan_numberpriority,
             'nwSrc' : $scope.ipSource,
             'nwDst' : $scope.ipDestiny,
-            'protocol' : $scope.proto_in.proto,
+            'protocol' : $scope.protocol_in,
             'installHw' : 'true',
             'actions' : [$scope.action]
 
@@ -620,7 +638,8 @@ Clientscontroller.controller('helpflow', function ($scope, $http, $log, promiseT
         // Perform JSONP request.
         var $promise = $http.post(API+"/addFlow", config)
             .success(function(data, status, headers, config) {
-                //$window.location.reload();
+
+                $window.location.reload();
                 $scope.submitted = true;
                 $scope.itsok = true;
                 $scope.flow_name ="";
