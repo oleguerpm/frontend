@@ -59,13 +59,7 @@
                                     <input type="password" name="password" data-ng-model="password" class="form-control" required />
                                 </div>
 
-
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div>
-                                <!-- Change this to a button or input when using this as a form -->
+                                <div id="log" class="alert alert-info">User: admin@upc.edu Password: admin</div>
 
                                 <div ng-show="userNoOk" class="ng-hide">   																<!-- Es un boolean. Si true, se muestra -->
                                     <button href={{url}} data-ng-disabled="helpForm.$invalid" ng-mousedown="submit(helpForm)" class="btn btnlg btn-primary btn-block">Login</button>
